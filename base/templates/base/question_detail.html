@@ -8,4 +8,27 @@
 <div>{{ question.end_time }}</div>
 <div>{{ question.paper_file }}</div>
 <iframe src = "../media/{{ question.paper_file }}"></iframe>
+<form method = "POST">
+    {% csrf_token %}
+    {{form}}
+    <button type = "submit">Submit</button>
+    <!-- <input type = "radio" value = "A" name = "1">
+    <label>A</label>
+    <input type = "radio" value = "B" name = "1">
+    <label>B</label>
+    <input type = "radio" value = "C" name = "1">
+    <label>C</label>
+    <input type = "radio" value = "D" name = "1">
+    <label>D</label>
+    <br>
+    <input type = "radio" value = "A" name = "2">
+    <label>A</label>
+    <input type = "radio" value = "B" name = "2">
+    <label>B</label>
+    <input type = "radio" value = "C" name = "2">
+    <label>C</label>
+    <input type = "radio" value = "D" name = "2">
+    <label>D</label> -->
+</form>
+
 {% endblock %}
