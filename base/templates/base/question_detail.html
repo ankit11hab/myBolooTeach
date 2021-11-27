@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{{ user.username }}
+<a href="{% url 'logout' %}">Logout</a>
+<div>{{ question.title }}</div>
+<div>{{ question.classs }}</div>
+<div>{{ question.start_time }}</div>
+<div>{{ question.end_time }}</div>
+<div>{{ question.paper_file }}</div>
+<iframe src = "../media/{{ question.paper_file }}"></iframe>
+{% endblock %}
