@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{{ user.username }}
+<a href="{% url 'logout' %}">Logout</a>
+<div>{{ question.title }}</div>
+<div>{{ question.classs }}</div>
+<iframe src = "../media/{{ question.paper_file }}"></iframe>
+<form method = "POST">
+    {% csrf_token %}
+    {{form}}
+    <button type = "submit">Submit</button>
+</form>
+
+{% endblock %}

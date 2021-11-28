@@ -6,29 +6,24 @@
 <div>{{ question.classs }}</div>
 <div>{{ question.start_time }}</div>
 <div>{{ question.end_time }}</div>
-<div>{{ question.paper_file }}</div>
-<iframe src = "../media/{{ question.paper_file }}"></iframe>
-<form method = "POST">
-    {% csrf_token %}
-    {{form}}
-    <button type = "submit">Submit</button>
-    <!-- <input type = "radio" value = "A" name = "1">
-    <label>A</label>
-    <input type = "radio" value = "B" name = "1">
-    <label>B</label>
-    <input type = "radio" value = "C" name = "1">
-    <label>C</label>
-    <input type = "radio" value = "D" name = "1">
-    <label>D</label>
-    <br>
-    <input type = "radio" value = "A" name = "2">
-    <label>A</label>
-    <input type = "radio" value = "B" name = "2">
-    <label>B</label>
-    <input type = "radio" value = "C" name = "2">
-    <label>C</label>
-    <input type = "radio" value = "D" name = "2">
-    <label>D</label> -->
-</form>
+{% if submission.submitted %}
+    <h4>{{submission.marks_obtd}}</h4>
+    <h2>Current Standings</h2>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Marks</th>
+        </tr>
+        {% for curr_submission in all_submissions %}
+        <tr>
+            <td>{{ curr_submission.user.username }}</td>
+            <td>{{ curr_submission.marks_obtd }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <a href = "{% url 'answer-form' question.id %}">Attempt</a>
+{% endif %}
+
 
 {% endblock %}
