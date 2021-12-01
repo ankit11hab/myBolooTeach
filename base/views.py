@@ -2,14 +2,36 @@ from django.shortcuts import render, redirect
 from .models import Question
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from users.models import Submission
-from .forms import SubmissionForm
+from users.models import Submission, Profile
+from .forms import SubmissionForm, ProfileUpdateForm
 
 # Create your views here.
 @login_required
 def home(request):
+    user_profile = Profile.objects.filter(user = request.user).first()
+    # if user_profile.first_name == "" or user_profile.mobile_no == "" or user_profile.classs==0:
+    #     return redirect('profile_update')
+    if not user_profile:
+        return redirect('profile_update')
     questions = Question.objects.all()
-    return render(request, 'base/home.html',{'questions':questions})
+    return render(request, 'base/home.html',{'questions':questions,'profile':user_profile})
+
+@login_required
+def profile_update(request):
+    if request.method=='POST':
+        form = ProfileUpdateForm(request.POST)
+        print(form['first_name'].value())
+        first_name = form['first_name'].value()
+        last_name = form['last_name'].value()
+        classs = form['classs'].value()
+        mobile_no = form['mobile_no'].value()
+        school = form['school'].value()
+        profile = Profile(user=request.user, first_name = first_name, last_name=last_name, classs=classs, mobile_no=mobile_no, school=school)
+        profile.save()
+        return redirect('home')
+    else:
+        form = ProfileUpdateForm()
+    return render(request, 'base/profile_update.html',{'form':form})
 
 @login_required
 def detail_view(request,pk):

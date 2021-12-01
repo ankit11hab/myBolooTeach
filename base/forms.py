@@ -25,3 +25,11 @@ class SubmissionForm(forms.Form):
     question18 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, required=False)
     question19 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, required=False)
     question20 = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, required=False)
+
+class ProfileUpdateForm(forms.Form):
+     first_name = forms.CharField()
+     last_name = forms.CharField()
+     classs = forms.IntegerField()
+     mobile_no = forms.CharField()
+     school = forms.CharField()
+

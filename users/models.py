@@ -12,3 +12,14 @@ class Submission(models.Model):
 
     def __str__(self):
         return f'{self.id}'
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200, default="")
+    last_name = models.CharField(max_length=200, default = "")
+    classs = models.IntegerField(default=0)
+    mobile_no = models.CharField(max_length=10, default="")
+    school = models.CharField(max_length=200, default="")
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
