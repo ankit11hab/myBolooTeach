@@ -107,7 +107,6 @@ body
                     <div style="transform: translate(0,7px);">Username</div>
                 </div>
                 <div>{{ form.username|add_class:'input-username-password' }}</div>
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div>
             <div class="mb-3" style="margin-top: 30px; display:flex">
                 <div class="label">
@@ -124,11 +123,4 @@ body
         </form>
     </div>
 </div>
-
-    <!-- <form method="POST">
-        {% csrf_token %}
-        {{ form.username }}
-        {{ form.password }}
-        
-    </form> -->
 {% endblock %}
