@@ -36,7 +36,7 @@ def profile_update(request):
 @login_required
 def detail_view(request,pk):
     question = Question.objects.get(pk = pk)
-    all_submissions = Submission.objects.filter(submitted=True)
+    all_submissions = Submission.objects.filter(question = question,submitted=True)
     if Submission.objects.filter(question=question, user = request.user).first():
         submission = Submission.objects.filter(question=question, user = request.user).first()
     else:
