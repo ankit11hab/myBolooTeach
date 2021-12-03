@@ -9,7 +9,7 @@ class Question(models.Model):
     paper_file = models.FileField(upload_to ='uploads/')
     answer_key = models.CharField(max_length=200,default="")
     marks_per_question = models.IntegerField(default=4)
-
+    number_of_question = models.IntegerField(default=5)
 
     def __str__(self):
         return self.title
