@@ -60,7 +60,7 @@ def answer_form(request, pk):
         form = SubmissionForm(question.number_of_question,request.POST)
         ans = ""
         marks = 0
-        for i in range(1, question.number_of_question):
+        for i in range(1, question.number_of_question+1):
             txt = "Question "+str(i)
             if form[txt].value() == None:
                 ans = ans + " "
