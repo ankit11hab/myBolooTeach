@@ -81,6 +81,37 @@ body
     padding-left: 10px;
     outline: none;
 }
+.input-field{
+    display:flex;
+}
+.forgot-pass{
+    transform: translate(80px,16px);
+}
+@media only screen and (max-width: 760px) {
+        .container{
+            height:500px;
+            width: 80%;
+        }
+        .container-child-left {
+            width: 0%;
+        }
+        .container-child-right{
+            width: 100%;
+            border-radius: 15px;
+        }
+        .input-field{
+            display: block;
+        }
+        .label{
+            text-align: left;
+            padding-bottom: 10px;
+            background-color: white;
+        }
+        .forgot-pass{
+            transform: none;
+        }
+
+    }
 
 </style>
 
@@ -102,23 +133,23 @@ body
         <span id="heading">Login to Dashboard</span>
         <form method = "POST" action = "">
             {% csrf_token %}
-            <div class="mb-3" style="margin-top: 30px; display:flex">
+            <div class="mb-3 input-field" style="margin-top: 30px;">
                 <div class="label">
                     <div style="transform: translate(0,7px);">Username</div>
                 </div>
                 <div>{{ form.username|add_class:'input-username-password' }}</div>
             </div>
-            <div class="mb-3" style="margin-top: 30px; display:flex">
+            <div class="mb-3 input-field" style="margin-top: 30px;">
                 <div class="label">
                     <div style="transform: translate(0,7px);">Password</div>
                 </div>
                 {{ form.password|add_class:'input-username-password' }}
             </div>
-            <div style="display: flex;">
-                <div><button class = "btn btn-primary" type = "submit">Login</button></div>
-                <div
-                    style="font-weight: 500;color:rgb(95, 95, 202); align-self: right;transform: translate(80px,16px);">
-                    <a href="#" style="text-decoration: none;color:rgb(95, 95, 202)">Forgot Password</a></div>
+            <div class="input-field">
+                <div><button class="btn btn-primary" type="submit">Login</button></div>
+                <div class="forgot-pass"style="font-weight: 500;color:rgb(95, 95, 202); align-self: right;">
+                    <a href="#" style="text-decoration: none;color:rgb(95, 95, 202)">Forgot Password</a>
+                </div>
             </div>
         </form>
     </div>

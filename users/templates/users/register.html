@@ -83,6 +83,30 @@ body
     padding-left: 10px;
     outline: none;
 }
+.input-field{
+    display:flex;
+}
+@media only screen and (max-width: 760px) {
+        .container{
+            height: 680px;
+            width: 80%;
+        }
+        .container-child-left {
+            width: 0%;
+        }
+        .container-child-right{
+            width: 100%;
+            border-radius: 15px;
+        }
+        .input-field{
+            display: block;
+        }
+        .label{
+            text-align: left;
+            padding-bottom: 10px;
+            background-color: white;
+        }
+    }
 
 </style>
 
@@ -104,27 +128,27 @@ body
         <span id="heading">Sign Up to Dashboard</span>
         <form method = "POST">
             {% csrf_token %}
-            <div class="mb-3" style="margin-top: 30px; display:flex">
+            <div class="mb-3 input-field" style="margin-top: 30px;">
                 <div class="label">
                     <div style="transform: translate(0,9px);">Username</div>
                 </div>
                 <div>{{ form.username|add_class:'input-username-password' }}</div>
                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div>
-            <div class="mb-3" style="margin-top: 30px; display:flex">
+            <div class="mb-3 input-field" style="margin-top: 30px; ">
               <div class="label">
                   <div style="transform: translate(0,9px);">Email</div>
               </div>
               <div>{{ form.email|add_class:'input-username-password' }}</div>
               <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div>
-            <div class="mb-3" style="margin-top: 30px; display:flex">
+            <div class="mb-3 input-field" style="margin-top: 30px; ">
                 <div class="label">
                     <div style="transform: translate(0,9px);">Password</div>
                 </div>
                 {{ form.password1|add_class:'input-username-password' }}
             </div>
-            <div class="mb-3" style="margin-top: 30px; display:flex">
+            <div class="mb-3 input-field" style="margin-top: 30px; ">
                 <div class="label">
                     <div style="transform: translate(0,0px);">Confirm Password</div>
                 </div>
