@@ -4,7 +4,9 @@
 <a href="{% url 'logout' %}">Logout</a>
 <div>{{ question.title }}</div>
 <div>{{ question.classs }}</div>
-<iframe src = "../media/{{ question.paper_file }}"></iframe>
+<iframe frameborder="0" src="../media/{{ question.paper_file }}#scrollbar=0&toolbar=0&navpanes=0&view=FitH" width="100%"
+    height="500px" style="transform: translate(-25px,-5px);"></iframe>
+
 <form method = "POST">
     {% csrf_token %}
     {{form}}
