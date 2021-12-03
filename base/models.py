@@ -11,5 +11,9 @@ class Question(models.Model):
     marks_per_question = models.IntegerField(default=4)
     number_of_question = models.IntegerField(default=5)
 
+    @property
+    def full_marks(self):
+        return self.marks_per_question * self.number_of_question
+
     def __str__(self):
         return self.title

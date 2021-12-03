@@ -1,14 +1,10 @@
 {% extends 'base/base.html' %}
 {% block content %}
-{{ user.username }}
-<a href="{% url 'logout' %}">Logout</a>
-<div>{{ question.title }}</div>
-<div>{{ question.classs }}</div>
-<div>{{ question.start_time }}</div>
-<div>{{ question.end_time }}</div>
+<a href="{% url 'logout' %}">Logout</a><br><br>
+<div><b>Question title: </b>{{ question.title }}</div>
 {% if submission.submitted %}
-    <h4>{{submission.marks_obtd}}</h4>
-    <h2>Current Standings</h2>
+    <b>Marks obtained: </b>{{submission.marks_obtd}}<br><br>
+    <h4>Current Standings</h4>
     <table>
         <tr>
             <th>Username</th>
@@ -22,6 +18,9 @@
         {% endfor %}
     </table>
 {% else %}
+<div><b>Start time: </b>{{ question.start_time }}</div>
+<div><b>End time: </b>{{ question.end_time }}</div>
+    <br>
     <a href = "{% url 'answer-form' question.id %}">Attempt</a>
 {% endif %}
 

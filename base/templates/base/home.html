@@ -1,15 +1,26 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <a href = "{% url 'logout' %}">Logout</a><br>
-    {{ user.username }}<br>
-    {{ profile.first_name }} {{ profile.last_name }}<br>
-    
-    <h4>Questions</h4>
+    <a href = "{% url 'logout' %}">Logout</a><br><br>
+    <b>Username</b>: {{ user.username }}<br>
+    <b>Name</b>: {{ profile.first_name }} {{ profile.last_name }}<br>
+    <b>Number of submissions</b>: {{ count }}<br><br>
+
+    <h4>Pending</h4>
     <ul>
-    {% for question in questions %}
-        {% if question.classs == profile.classs %}
-            <li><a href = "{% url 'question-detail' question.id %}">{{ question.title }}</a>
-            {{ question.classs }}</li>
+    {% for pendquestion in pending %}
+        {% if pendquestion.question.classs == profile.classs %}
+            <li><a href = "{% url 'question-detail' pendquestion.question.id %}">{{ pendquestion.question.title }}</a>
+            {{ pendquestion.question.classs }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    
+    <h4>Completed</h4>
+    <ul>
+    {% for subquestion in submissions %}
+        {% if subquestion.question.classs == profile.classs %}
+            <li><a href = "{% url 'question-detail' subquestion.question.id %}">{{ subquestion.question.title }}</a>
+                {{ subquestion.marks_obtd }}/{{ subquestion.question.full_marks }}</li>
         {% endif %}
     {% endfor %}
     </ul>
