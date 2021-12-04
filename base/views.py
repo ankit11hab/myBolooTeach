@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Question
 from django.contrib.auth.decorators import login_required
@@ -10,10 +11,13 @@ from .forms import SubmissionForm, ProfileUpdateForm
 
 @login_required
 def home(request):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
     user_profile = Profile.objects.filter(user=request.user).first()
     # if user_profile.first_name == "" or user_profile.mobile_no == "" or user_profile.classs==0:
     #     return redirect('profile_update')
-    if not user_profile:
+    if user_profile.mobile_no=="":
         return redirect('profile_update')
     questions = Question.objects.filter(classs=user_profile.classs)
     for question in questions:
@@ -27,6 +31,9 @@ def home(request):
 
 @login_required
 def profile_update(request):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST)
         print(form['first_name'].value())
@@ -35,8 +42,12 @@ def profile_update(request):
         classs = form['classs'].value()
         mobile_no = form['mobile_no'].value()
         school = form['school'].value()
-        profile = Profile(user=request.user, first_name=first_name,
-                          last_name=last_name, classs=classs, mobile_no=mobile_no, school=school)
+        profile = Profile.objects.filter(user=request.user).first()
+        profile.first_name=first_name
+        profile.last_name=last_name
+        profile.classs=classs
+        profile.mobile_no=mobile_no
+        profile.school=school
         profile.save()
         return redirect('home')
     else:
@@ -46,6 +57,9 @@ def profile_update(request):
 
 @login_required
 def detail_view(request, pk):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
     question = Question.objects.get(pk=pk)
     all_submissions = Submission.objects.filter(
         question=question, submitted=True)
@@ -61,6 +75,9 @@ def detail_view(request, pk):
 
 @login_required
 def answer_form(request, pk):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
     question = Question.objects.get(pk=pk)
     if request.method == 'POST':
         form = SubmissionForm(question.number_of_question,request.POST)
