@@ -6,6 +6,16 @@
 <br>
 
 <div class="container">
+    
+    <div class="card mb-4" id="performance">
+        <div class="card-header" style="background-color: white;">
+            <h5>Daily Submissions</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="myChart" style="width:100%;height:400px;"></canvas>
+        </div>
+    </div>
+    
     <div class="card mb-4" id="performance">
         <div class="card-header" style="background-color: white;">
             <h5>Performance</h5>
@@ -81,5 +91,60 @@
         </div>
     </div>
 </div>
+<script>
+    const data = {
+            labels: [1,2,3,4,5],
+            datasets: [{
+                label: 'Daily Submissions',
+                backgroundColor: 'blue',
+                borderColor: 'blue',
+                borderWidth: "5",
+                data: [{{submission5}}, {{ submission4 }}, {{ submission3 }}, {{ submission2 }}, {{ submission1 }}, 25],
+            }]
+        };
+    new Chart("myChart", {
+        type: "line",
+        data: data,
+        options:  {
+            type: 'line',
+            data,
+            options: {
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        
+                        grid: {
+                            color: "rgb(173, 173, 173)",
+                            tickColor: 'white',
 
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: "rgb(173, 173, 173)",
+                            tickColor: 'white',
+                        },
+                        max: 30,
+                        ticks: {
+                            // forces step size to be 50 units
+                            stepSize: 10
+                        }
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            // This more specific font property overrides the global property
+                            color: "white",
+                            font: {
+                                size: 10 // 'size' now within object 'font {}'
+                            }
+                        }
+                    }
+                }
+            }
+    }});
+    
+</script>
 {% endblock %}

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from .models import Question
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,17 @@ def home(request):
     submissions = Submission.objects.filter(user = request.user, submitted = True)
     pending = Submission.objects.filter(user = request.user, submitted = False)
     count = len(submissions)
-    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions':submissions, 'pending':pending, 'count':count})
+    submission1 = len(Submission.objects.filter(
+        user=request.user, submitted=True, date_of_submission=datetime.now().date()))
+    submission2 = len(Submission.objects.filter(
+        user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24)).date()))
+    submission3 = len(Submission.objects.filter(
+        user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*2)).date()))
+    submission4 = len(Submission.objects.filter(
+        user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*3)).date()))
+    submission5 = len(Submission.objects.filter(
+        user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*4)).date()))
+    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions': submissions, 'pending': pending, 'count': count, 'submission1': submission1, 'submission2': submission2, 'submission3': submission3, 'submission4': submission4, 'submission5': submission5})
 
 
 @login_required
