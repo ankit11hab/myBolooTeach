@@ -27,9 +27,3 @@ class Question(models.Model):
     def ended(self):
         now = timezone.now()
         return now >= self.end_time
-
-    def start_time_str(self):
-        return self.start_time.strftime("%d-%m-%Y %H:%M:%S")
-
-    def end_time_str(self):
-        return self.end_time.strftime("%d-%m-%Y %H:%M:%S")

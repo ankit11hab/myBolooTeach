@@ -33,10 +33,10 @@
                             class="btn btn-primary">Attempt</a></div>
                     {% elif not pendquestion.question.started %}
                     <div style="float: right;"><a href="#"
-                        class="btn btn-primary disabled">Attempt at {{ pendquestion.question.start_time_str }}</a></div>
+                        class="btn btn-primary disabled">Attempt at {{ pendquestion.question.start_time }}</a></div>
                     {% else %}
                     <div style="float: right;"><a href="#"
-                        class="btn btn-primary disabled">Expired at {{ pendquestion.question.end_time_str }}</a></div>
+                        class="btn btn-primary disabled">Expired at {{ pendquestion.question.end_time }}</a></div>
                     {% endif %}
                 </div>
             </div>
