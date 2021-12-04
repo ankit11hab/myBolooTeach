@@ -28,8 +28,16 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ pendquestion.question.title }}</h5>
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    {% if pendquestion.question.started and not pendquestion.question.ended %}
                     <div style="float: right;"><a href="{% url 'question-detail' pendquestion.question.id %}"
                             class="btn btn-primary">Attempt</a></div>
+                    {% elif not pendquestion.question.started %}
+                    <div style="float: right;"><a href="#"
+                        class="btn btn-primary disabled">Attempt at {{ pendquestion.question.start_time_str }}</a></div>
+                    {% else %}
+                    <div style="float: right;"><a href="#"
+                        class="btn btn-primary disabled">Expired at {{ pendquestion.question.end_time_str }}</a></div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
