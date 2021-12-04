@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
+{% include 'base/navbar.html' %}
 {% block content %}
-<a href="{% url 'logout' %}">Logout</a><br><br>
 <div><b>Question title: </b>{{ question.title }}</div>
 {% if submission.submitted %}
     <b>Marks obtained: </b>{{submission.marks_obtd}}<br><br>
