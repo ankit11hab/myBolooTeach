@@ -11,7 +11,7 @@ class SubmissionForm(forms.Form):
         super(SubmissionForm, self).__init__(*args, **kwargs)
         for i in range(0, n):
             self.fields["Question %d" % (i+1)] = forms.ChoiceField(
-                choices=CHOICES, widget=forms.RadioSelect, required=False)
+                choices=CHOICES, widget=forms.RadioSelect(attrs={'id': 'field{{i+1}}'}), required=False, label = i+1)
 
 
 class ProfileUpdateForm(forms.Form):
