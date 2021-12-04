@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
-{% include 'base/navbar.html' %}
 {% block content %}
-<div><b>Question title: </b>{{ question.title }}</div>
-{% if submission.submitted %}
+{% include 'base/navbar.html' %}
+<div class="container">
+    <div><b>Question title: </b>{{ question.title }}</div>
+    {% if submission.submitted %}
     <b>Marks obtained: </b>{{submission.marks_obtd}}<br><br>
     <h4>Current Standings</h4>
     <table>
@@ -17,12 +18,12 @@
         </tr>
         {% endfor %}
     </table>
-{% else %}
-<div><b>Start time: </b>{{ question.start_time }}</div>
-<div><b>End time: </b>{{ question.end_time }}</div>
+    {% else %}
+    <div><b>Start time: </b>{{ question.start_time }}</div>
+    <div><b>End time: </b>{{ question.end_time }}</div>
     <br>
-    <a href = "{% url 'answer-form' question.id %}">Attempt</a>
-{% endif %}
+    <a href="{% url 'answer-form' question.id %}">Attempt</a>
+    {% endif %}
 
-
+</div>
 {% endblock %}
