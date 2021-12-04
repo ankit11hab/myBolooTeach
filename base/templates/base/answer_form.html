@@ -1,12 +1,21 @@
 {% extends 'base/base.html' %}
 
+
+
+{% block content %}
 <style>
     iframe {
         overflow: hidden;
     }
-</style>
 
-{% block content %}
+    ul {
+        list-style: none;
+    }
+
+    li {
+        display: inline;
+    }
+</style>
 <div class="container">
     {{ user.username }}
     <a href="{% url 'logout' %}">Logout</a>
