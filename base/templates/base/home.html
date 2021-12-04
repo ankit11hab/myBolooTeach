@@ -1,37 +1,40 @@
 {% extends 'base/base.html' %}
-{% include 'base/navbar.html' %}
-{% block content %}
 
+{% block content %}
+{% include 'base/navbar.html' %}
 
 <br>
-<div class="card mb-4" id = "performance">
-    <div class="card-header" style="background-color: white;">
-        <h5>Performance</h5>
-    </div>
-    <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <b>Name</b>: {{ profile.first_name }} {{ profile.last_name }}<br>
-        <b>Number of submissions</b>: {{ count }}<br><br>
-    </div>
-</div>
 
-<div class="card mb-4" id = "pending">
-    <div class="card-header" style="background-color: white;">
-        <h5>Pending Assignments</h5>
-    </div>
-    <div class="card-body">
-        {% for pendquestion in pending %}
-        {% if pendquestion.question.classs == profile.classs %}
-        <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
-            <div class="card-body">
-                <h5 class="card-title">{{ pendquestion.question.title }}</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <div style="float: right;"><a href="{% url 'question-detail' pendquestion.question.id %}" class="btn btn-primary">Attempt</a></div>
-            </div>
+<div class="container">
+    <div class="card mb-4" id="performance">
+        <div class="card-header" style="background-color: white;">
+            <h5>Performance</h5>
         </div>
-        {% endif %}
-        {% endfor %}
-        <!-- <ul>
+        <div class="card-body">
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <b>Name</b>: {{ profile.first_name }} {{ profile.last_name }}<br>
+            <b>Number of submissions</b>: {{ count }}<br><br>
+        </div>
+    </div>
+
+    <div class="card mb-4" id="pending">
+        <div class="card-header" style="background-color: white;">
+            <h5>Pending Assignments</h5>
+        </div>
+        <div class="card-body">
+            {% for pendquestion in pending %}
+            {% if pendquestion.question.classs == profile.classs %}
+            <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pendquestion.question.title }}</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <div style="float: right;"><a href="{% url 'question-detail' pendquestion.question.id %}"
+                            class="btn btn-primary">Attempt</a></div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <!-- <ul>
             {% for pendquestion in pending %}
             {% if pendquestion.question.classs == profile.classs %}
             <li><a href="{% url 'question-detail' pendquestion.question.id %}">{{ pendquestion.question.title }}</a>
@@ -39,26 +42,27 @@
             {% endif %}
             {% endfor %}
         </ul> -->
-    </div>
-</div>
-
-<div class="card" id = "completed">
-    <div class="card-header" style="background-color: white;">
-        <h5>Completed Assignments</h5>
-    </div>
-    <div class="card-body">
-        {% for subquestion in submissions %}
-        {% if subquestion.question.classs == profile.classs %}
-        <div class="card shadow-sm  mb-4" style="background:#f5f7fa; border:none">
-            <div class="card-body">
-                <h5 class="card-title">{{ subquestion.question.title }}</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <div style="float: right;"><a href="{% url 'question-detail' subquestion.question.id %}" class="btn btn-primary">View result</a></div>
-            </div>
         </div>
-        {% endif %}
-        {% endfor %}
-        <!-- <ul>
+    </div>
+
+    <div class="card" id="completed">
+        <div class="card-header" style="background-color: white;">
+            <h5>Completed Assignments</h5>
+        </div>
+        <div class="card-body">
+            {% for subquestion in submissions %}
+            {% if subquestion.question.classs == profile.classs %}
+            <div class="card shadow-sm  mb-4" style="background:#f5f7fa; border:none">
+                <div class="card-body">
+                    <h5 class="card-title">{{ subquestion.question.title }}</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <div style="float: right;"><a href="{% url 'question-detail' subquestion.question.id %}"
+                            class="btn btn-primary">View result</a></div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <!-- <ul>
             {% for subquestion in submissions %}
             {% if subquestion.question.classs == profile.classs %}
             <li><a href="{% url 'question-detail' subquestion.question.id %}">{{ subquestion.question.title }}</a>
@@ -66,8 +70,8 @@
             {% endif %}
             {% endfor %}
         </ul> -->
+        </div>
     </div>
 </div>
-
 
 {% endblock %}
