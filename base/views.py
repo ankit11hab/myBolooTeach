@@ -11,14 +11,17 @@ from .forms import SubmissionForm, ProfileUpdateForm
 @login_required
 def home(request):
     user_profile = Profile.objects.filter(user=request.user).first()
-    submissions = Submission.objects.filter(user = request.user, submitted = True)
-    pending = Submission.objects.filter(user = request.user, submitted = False)
-    count = len(submissions)
     # if user_profile.first_name == "" or user_profile.mobile_no == "" or user_profile.classs==0:
     #     return redirect('profile_update')
     if not user_profile:
         return redirect('profile_update')
-    questions = Question.objects.all()
+    questions = Question.objects.filter(classs=user_profile.classs)
+    for question in questions:
+        if not Submission.objects.filter(question=question, user=request.user):
+            Submission(question=question, user=request.user, submitted=False).save()
+    submissions = Submission.objects.filter(user = request.user, submitted = True)
+    pending = Submission.objects.filter(user = request.user, submitted = False)
+    count = len(submissions)
     return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions':submissions, 'pending':pending, 'count':count})
 
 
