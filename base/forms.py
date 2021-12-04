@@ -18,5 +18,6 @@ class ProfileUpdateForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
     classs = forms.IntegerField()
-    mobile_no = forms.CharField()
+    mobile_no = forms.CharField(widget=forms.TextInput
+                                (attrs={'placeholder': 'eg:- +12196496984'}))
     school = forms.CharField()

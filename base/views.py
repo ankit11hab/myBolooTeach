@@ -4,22 +4,22 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from users.models import Submission, Profile
 from .forms import SubmissionForm, ProfileUpdateForm
-
+from users.models import phoneModel
 # Create your views here.
 
 
 @login_required
 def home(request):
     user_profile = Profile.objects.filter(user=request.user).first()
-    submissions = Submission.objects.filter(user = request.user, submitted = True)
-    pending = Submission.objects.filter(user = request.user, submitted = False)
+    submissions = Submission.objects.filter(user=request.user, submitted=True)
+    pending = Submission.objects.filter(user=request.user, submitted=False)
     count = len(submissions)
     # if user_profile.first_name == "" or user_profile.mobile_no == "" or user_profile.classs==0:
     #     return redirect('profile_update')
     if not user_profile:
         return redirect('profile_update')
     questions = Question.objects.all()
-    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions':submissions, 'pending':pending, 'count':count})
+    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions': submissions, 'pending': pending, 'count': count})
 
 
 @login_required
@@ -30,11 +30,12 @@ def profile_update(request):
         first_name = form['first_name'].value()
         last_name = form['last_name'].value()
         classs = form['classs'].value()
-        mobile_no = form['mobile_no'].value()
         school = form['school'].value()
+        phone = phoneModel.objects.get(Mobile=form['mobile_no'].value()[1:])
         profile = Profile(user=request.user, first_name=first_name,
-                          last_name=last_name, classs=classs, mobile_no=mobile_no, school=school)
+                          last_name=last_name, classs=classs, mobile_no=phone, school=school)
         profile.save()
+
         return redirect('home')
     else:
         form = ProfileUpdateForm()
@@ -60,7 +61,7 @@ def detail_view(request, pk):
 def answer_form(request, pk):
     question = Question.objects.get(pk=pk)
     if request.method == 'POST':
-        form = SubmissionForm(question.number_of_question,request.POST)
+        form = SubmissionForm(question.number_of_question, request.POST)
         ans = ""
         marks = 0
         for i in range(1, question.number_of_question+1):

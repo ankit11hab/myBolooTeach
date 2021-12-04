@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -145,6 +146,11 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+#SMS using Twilio
+TWILIO_ACCOUNT_SID = 'AC933f381061241e889a999d06e13060e2'
+TWILIO_AUTH_TOKEN = 'b2ccc681a0d1680aa75503f92cb7d269'
+TWILIO_PHONE_NUMBER = '+17197486984'
+#Email 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
