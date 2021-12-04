@@ -7,7 +7,6 @@ urlpatterns = [
     path('profile', views.profile_update, name='profile_update'),
     path('question/<int:pk>', views.detail_view, name='question-detail'),
     path('answers/<int:pk>', views.answer_form, name='answer-form'),
-    path("verify/<phone>", user_views.getPhoneNumberRegistered.as_view(), name="OTP Gen"),
     # Password reset urls
     path("password_reset", user_views.password_reset_request, name="password_reset"),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(

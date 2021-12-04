@@ -1,10 +1,3 @@
-import base64
-from .models import phoneModel
-from rest_framework.views import APIView
-from rest_framework.response import Response
-import pyotp
-from django.core.exceptions import ObjectDoesNotExist
-from datetime import datetime
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.forms import PasswordResetForm
 from django.shortcuts import render, redirect
@@ -18,9 +11,6 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
-from twilio.rest import Client
-from django.conf import settings
-
 User = get_user_model()
 
 # Create your views here.
@@ -69,63 +59,5 @@ def password_reset_request(request):
                         request, ("Password reset mail sent successfully."))
             else:
                 messages.error(request, ("Email not registered with us"))
-    form = PasswordResetForm()
+    form= PasswordResetForm()
     return render(request=request, template_name="users/password/password_reset.html", context={"form": form})
-
-#OTP FUNCTIONS
-EXPIRY_TIME = 600
-class generateKey:
-    @staticmethod
-    def returnValue(phone):
-        return str(phone) + str(datetime.date(datetime.now())) + "Some Random Secret Key"
-
-
-
-class getPhoneNumberRegistered(APIView):
-    # Get to Create a call for OTP
-    @staticmethod
-    def get(request, phone):
-        try:
-            # if Mobile already exists the take this else create New One
-            Mobile = phoneModel.objects.get(Mobile=phone)
-        except ObjectDoesNotExist:
-            phoneModel.objects.create(
-                Mobile=phone,
-            )
-            Mobile = phoneModel.objects.get(
-                Mobile=phone)  # user Newly created Model
-        Mobile.save()  # Save the data
-        keygen = generateKey()
-        key = base64.b32encode(keygen.returnValue(
-            phone).encode())  # Key is generated
-        # TOTP Model for OTP is created
-        OTP = pyotp.TOTP(key, interval=EXPIRY_TIME)
-        #OTP is sent using Twilio. Check Settings for configuration
-        client = Client(settings.TWILIO_ACCOUNT_SID,
-                        settings.TWILIO_AUTH_TOKEN)
-        response = client.messages.create(
-            body='The OTP is '+OTP.now()+'. It will expire in 10 minutes',
-            to=phone, from_=settings.TWILIO_PHONE_NUMBER)
-        
-        
-        print("OTP is "+OTP.now())
-        return Response({"OTP": OTP.now()}, status=200)
-
-    # This Method verifies the OTP
-    @staticmethod
-    def post(request, phone):
-        try:
-            Mobile = phoneModel.objects.get(Mobile=phone)
-        except ObjectDoesNotExist:
-            return Response("User does not exist", status=404)  # False Call
-
-        keygen = generateKey()
-        key = base64.b32encode(keygen.returnValue(
-            phone).encode())  # Generating Key
-        OTP = pyotp.TOTP(key, interval=EXPIRY_TIME)  # TOTP Model
-        if OTP.verify(request.data["otp"]):  # Verifying the OTP
-            Mobile.isVerified = True
-            Mobile.save()
-            
-            return HttpResponse("OK")
-        return HttpResponse("OTP is wrong/expired")

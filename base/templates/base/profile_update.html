@@ -15,7 +15,7 @@
         margin-top: 80px;
         margin-bottom: 80px;
         width: 850px;
-        height: 650px;
+        height: 550px;
         background: url("../media/images/darkBlue3.jpg");
 
     }
@@ -79,7 +79,7 @@
 
     @media only screen and (max-width: 760px) {
         .container {
-            height: 900px;
+            height: 730px;
             width: 80%;
         }
 
@@ -142,18 +142,9 @@
                 </div>
                 <div class="mb-3 input-field" style="margin-top: 30px;">
                     <div class="label">
-                        <div style="transform: translate(0,7px);">Mobile No</div>
+                        <div style="transform: translate(0,7px);">Mobile No.</div>
                     </div>
                     {{ form.mobile_no|add_class:'input-username-password' }}
-                </div>
-                <a style="text-decoration: none;color:rgb(95, 95, 202)" id="otpgen"onclick="generateotp()">Generate OTP</a>
-                <a style="text-decoration: none;color:rgb(95, 95, 202); display:none;" id="otpverified"></a>
-                <div class="mb-3 input-field" style="margin-top: 30px;" id="otpenter">
-                    <div class="label">
-                        <div style="transform: translate(0,7px);">OTP</div>
-                    </div>
-                    <input type="text" name="mobile_otp" class="input-username-password" required="" id="mobile_otp">
-                    <a class="btn btn-primary" style="margin: 0px;" onclick="verifyotp()"">Verify</a>
                 </div>
                 <div class="mb-3 input-field" style="margin-top: 30px;">
                     <div class="label">
@@ -161,58 +152,10 @@
                     </div>
                     {{ form.school|add_class:'input-username-password' }}
                 </div>
-                <button class="btn btn-primary" type="submit" id="profile-submit" disabled>Update Profile</button>
+                <button class="btn btn-primary" type="submit">Update Profile</button>
 
             </form>
         </div>
     </div>
 </div>
-<script>
-    async function generateotp(event) {
-
-            $.ajax({
-                url: `/verify/${document.getElementById("id_mobile_no").value}`,
-                type: 'GET',
-                headers: {
-                    "X-CSRFTOKEN": "{{ csrf_token }}"
-                },
-                success: function (data) {
-                    document.getElementById("otpgen").innerHTML="OTP sent. It is valid for 10 minutes. Click here to resend"
-                },
-            });
-            
-        }
-        async function verifyotp(event) {
-
-                $.ajax({
-                    url: `/verify/${document.getElementById("id_mobile_no").value}`,
-                    type: 'POST',
-                    headers: {
-                        "X-CSRFTOKEN": "{{ csrf_token }}"
-                    },
-                    data: { "otp": `${document.getElementById("mobile_otp").value}` },
-                    success: function (data) {
-                        console.log(data)
-                        if(data=="OK"){
-                            document.getElementById("otpverified").style.display="block"
-                            document.getElementById("otpverified").innerHTML = "OTP Verified"
-                            document.getElementById("otpenter").style.display = "none"
-                            document.getElementById("otpgen").style.display = "none"
-                            document.getElementById("id_mobile_no").readOnly = true;
-                            document.getElementById("profile-submit").disabled = false;
-
-                        }
-                        else{
-                             document.getElementById("otpverified").style.display = "block"
-                             document.getElementById("otpverified").innerHTML= data
-                        }
-                    },
-                    error: function (data) {
-                        console.log(data)
-                    }
-                });
-
-            }
-</script>
-
 {% endblock %}
