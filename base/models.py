@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Question(models.Model):
@@ -10,6 +11,7 @@ class Question(models.Model):
     answer_key = models.CharField(max_length=200,default="")
     marks_per_question = models.IntegerField(default=4)
     number_of_question = models.IntegerField(default=5)
+    
 
     @property
     def full_marks(self):
@@ -17,3 +19,11 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
+
+    def started(self):
+        now = timezone.now()
+        return now >= self.start_time
+
+    def ended(self):
+        now = timezone.now()
+        return now >= self.end_time
