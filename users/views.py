@@ -100,13 +100,15 @@ class getPhoneNumberRegistered(APIView):
             phone).encode())  # Key is generated
         # TOTP Model for OTP is created
         OTP = pyotp.TOTP(key, interval=EXPIRY_TIME)
-        
+        #OTP is sent using Twilio. Check Settings for configuration
         client = Client(settings.TWILIO_ACCOUNT_SID,
                         settings.TWILIO_AUTH_TOKEN)
         response = client.messages.create(
             body='The OTP is '+OTP.now()+'. It will expire in 10 minutes',
             to=phone, from_=settings.TWILIO_PHONE_NUMBER)
-        print(OTP.now())
+        
+        
+        print("OTP is "+OTP.now())
         return Response({"OTP": OTP.now()}, status=200)
 
     # This Method verifies the OTP
@@ -124,5 +126,6 @@ class getPhoneNumberRegistered(APIView):
         if OTP.verify(request.data["otp"]):  # Verifying the OTP
             Mobile.isVerified = True
             Mobile.save()
-            return Response("You are authorised", status=200)
-        return Response("OTP is wrong/expired", status=400)
+            
+            return HttpResponse("OK")
+        return HttpResponse("OTP is wrong/expired")
