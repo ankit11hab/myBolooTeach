@@ -33,11 +33,44 @@
                         <div class = "col-10">{{ field }}</div>
                     </div>
                 {% endfor %}
-                <button class = "btn btn-primary" type="submit" style = "float:right;margin-right: 10px;">Submit</button>
+                <button id = "SubmitButton" class = "btn btn-primary" type="submit" style = "float:right;margin-right: 10px;">Submit</button>
             </form>
+            <span id='Timer' style='color: red;'></span>
         </div>
     </div>
 
 </div>
+
+<!-- this script is added so that momnet function can be used in the next timer function -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var defaultFormat = "MMM. D, YYYY, H:mm a"
+    var endtime = moment("{{question.end_time}}",defaultFormat).format("MMM. D, YYYY, HH:mm:ss")
+    var countDownDate = new Date(endtime).getTime();
+    
+    var x = setInterval(function() {
+    
+      var now = new Date().getTime();
+    
+      var distance = countDownDate - now;
+      
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var hoursp = (hours / 10 < 1) ? "0" : "";
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var minutesp = (minutes / 10 < 1) ? "0" : "";
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      var secondsp = (seconds / 10 < 1) ? "0" : "";
+    
+      document.getElementById("Timer").innerHTML = "TIMER : " +  hoursp + hours + " : "
+      + minutesp + minutes + " : " + secondsp + seconds ;
+      
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("SubmitButton").click();
+        document.getElementById("Timer").innerHTML = "Test Finished";
+    }
+}, 1000);
+</script>
+
 
 {% endblock %}
