@@ -5,7 +5,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-
     body {
         width: 100%;
     }
@@ -54,7 +53,8 @@
         background-color: rgb(50, 45, 112);
         padding-top: 5px;
         padding-bottom: 5px;
-        padding-left: 10px; padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
         border-radius: 20px;
     }
 
@@ -64,7 +64,8 @@
         background-color: rgb(50, 45, 112);
         padding-top: 5px;
         padding-bottom: 5px;
-        padding-left: 10px; padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
         border-radius: 20px;
     }
 
@@ -74,7 +75,8 @@
         background-color: rgb(50, 45, 112);
         padding-top: 5px;
         padding-bottom: 5px;
-        padding-left: 10px; padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
         border-radius: 20px;
     }
 
@@ -120,6 +122,11 @@
         margin-left: 20px;
         margin-right: 20px;
         font-size: 1.5rem;
+        transition: 0.5s ease;
+    }
+
+    #attempt-btn:hover {
+        background-color: rgb(84, 33, 151);
     }
 
     #start-time:after {
@@ -128,7 +135,8 @@
         background-color: rgb(50, 45, 112);
         padding-top: 5px;
         padding-bottom: 5px;
-        padding-left: 10px; padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
         border-radius: 20px;
     }
 
@@ -138,32 +146,41 @@
         background-color: rgb(50, 45, 112);
         padding-top: 5px;
         padding-bottom: 5px;
-        padding-left: 10px; padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
         border-radius: 20px;
     }
-
-
 </style>
 
 
 <div class="container">
-    <div id="title"> <span class="title-first">TITLE</span><br><span class="title-second">{{ question.title }}</span></div>
+    <div id="title"> <span class="title-first">TITLE</span><br><span class="title-second">{{ question.title }}</span>
+    </div>
     {% if submission.submitted %}
     <b>Marks obtained: </b>{{submission.marks_obtd}}<br><br>
     <h4>Current Standings</h4>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Marks</th>
-        </tr>
-        {% for curr_submission in all_submissions %}
-        <tr>
-            <td>{{ curr_submission.user.username }}</td>
-            <td>{{ curr_submission.marks_obtd }}</td>
-        </tr>
-        {% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Student name</th>
+                <th scope="col">Marks obtained</th>
+                <th scope="col">Time taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curr_submission in all_submissions %}
+            
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ curr_submission.user.first_name }} {{ curr_submission.user.last_name }}</td>
+                <td>{{ curr_submission.marks_obtd }}</td>
+                <td>@mdo</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-    
+
     {% else %}
 
 
@@ -181,7 +198,7 @@
     </div>
 
     <br><br><br><br><br><br>
-    
+
     <a id="attempt-btn" href="{% url 'answer-form' question.id %}">Attempt</a>
     <br><br><br><br><br><br>
     {% endif %}
