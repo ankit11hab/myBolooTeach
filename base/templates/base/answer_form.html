@@ -36,10 +36,14 @@
                 <button id = "SubmitButton" class = "btn btn-primary" type="submit" style = "float:right;margin-right: 10px;">Submit</button>
             </form>
             <span id='Timer' style='color: red;'></span>
+            <video width="95%" style="margin-top: 10px;">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
 
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -70,6 +74,22 @@
     }
 }, 1000);
 </script>
+<script>
+    var constraints = { audio: true, video: true };
 
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(mediaStream) {
+        var video = document.querySelector('video');
+        video.srcObject = mediaStream;
+        video.onloadedmetadata = function(e) {
+            video.play();
+        };
+    })
+    .catch(function(err) { 
+        alert("Error in Camera/Microphone Input\n" + err.name + ": " + err.message + "\nYou will be redirected to dashboard");
+        console.log(err.name + ": " + err.message); 
+        location.replace("https://www.w3schools.com")
+    }); // always check for errors at the end.
+</script>
 
 {% endblock %}
