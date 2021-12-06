@@ -14,28 +14,39 @@
     iframe {
         overflow: hidden;
     }
+    .ans-div::-webkit-scrollbar {
+        display: none;
+    }
+    .ans-div {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 </style>
 
 <div class="container" style = "margin-bottom: 30px;margin-top: 30px;">
+    
+    <div style = "border:1px solid rgb(206, 206, 206); padding: 10px; width: 170px; border-radius: 10px;text-align: center;transform:translate(-10px,0); margin-bottom: 5px;">
+        <b><img src = "../media/images/alarm-clock.png" width = "26px" style = "transform: translate(0,-2px);"><span id='Timer' style='color: rgb(0, 0, 0);font-size: 18px;margin-left: 13px;'>00 : 00 : 00</span></b>
+    </div>
+    
     <div class="row">
-        <div class="col-8" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);border-radius: 10px;">
+        <div class="col-8" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);box-shadow: 2px 1px #e0d0ff;border-radius: 10px;">
             <embed scrolling="no" frameborder="0"
                 src="../media/{{ question.paper_file }}#scrollbar=0&toolbar=0&navpanes=0&view=FitH" width="110%"
                 height="600px" style="transform: translate(-25px,-5px)"></embed>
         </div>
-        <div class="col-3" style = "margin-left:30px;padding: 20px 20px 20px 40px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 590px">
+        <div class="col-3 ans-div" style = "margin-left:30px;padding: 20px 20px 20px 20px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 608px;box-shadow: 2px 1px #e0d0ff;overflow:scroll">
             <form method="POST">
                 {% csrf_token %}
                 <!-- {{form}} -->
                 {% for field in form %}
-                    <div class = "row">
+                    <div class = "row" style  ="background-color: rgb(255, 238, 241);margin-bottom: 8px;border-radius: 5px; height:30px">
                         <div class = "col-1"><label class="my_class" for="{{ field.auto_id }}"><b>{{ field.label }}</b></label></div>
                         <div class = "col-10">{{ field }}</div>
                     </div>
                 {% endfor %}
-                <button id = "SubmitButton" class = "btn btn-primary" type="submit" style = "float:right;margin-right: 10px;">Submit</button>
+                <button id = "SubmitButton" class = "btn btn-success" type="submit" style = "width:100%;margin-top: 5px;">Submit</button>
             </form>
-            <span id='Timer' style='color: red;'></span>
         </div>
     </div>
 
@@ -59,7 +70,7 @@
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
       var secondsp = (seconds / 10 < 1) ? "0" : "";
 
-      document.getElementById("Timer").innerHTML = "TIMER : " +  hoursp + hours + " : "
+      document.getElementById("Timer").innerHTML = hoursp + hours + " : "
       + minutesp + minutes + " : " + secondsp + seconds ;
 
       if (distance < 0) {
