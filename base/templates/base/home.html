@@ -34,22 +34,25 @@
         <div class="card-body">
             {% for pendquestion in pending %}
             {% if pendquestion.question.classs == profile.classs %}
-            <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
-                <div class="card-body">
-                    <h5 class="card-title">{{ pendquestion.question.title }}</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                     {% if pendquestion.question.started and not pendquestion.question.ended %}
+                    <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pendquestion.question.title }}</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                     <div style="float: right;"><a href="{% url 'question-detail' pendquestion.question.id %}"
                             class="btn btn-primary">Attempt</a></div>
+                        </div>
+                    </div>
                     {% elif not pendquestion.question.started %}
+                    <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pendquestion.question.title }}</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                     <div style="float: right;"><a href="#"
                         class="btn btn-primary disabled">Attempt at {{ pendquestion.question.start_time }}</a></div>
-                    {% else %}
-                    <div style="float: right;"><a href="#"
-                        class="btn btn-primary disabled">Expired at {{ pendquestion.question.end_time }}</a></div>
-                    {% endif %}
+                    </div>
                 </div>
-            </div>
+                    {% endif %}
             {% endif %}
             {% endfor %}
             <!-- <ul>
@@ -68,6 +71,23 @@
             <h5>Completed Assignments</h5>
         </div>
         <div class="card-body">
+
+            {% for pendquestion in pending %}
+            {% if pendquestion.question.classs == profile.classs %} 
+                {% if pendquestion.question.ended %}
+                   <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
+                        <div class="card-body">
+                    <h5 class="card-title">{{ pendquestion.question.title }}</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <div style="float: right;"><a href="#"
+                        class="btn btn-primary disabled">Expired at {{ pendquestion.question.end_time }}</a></div>
+                    </div>
+                 </div>
+                 {% endif %}
+               
+            {% endif %}
+            {% endfor %}
+
             {% for subquestion in submissions %}
             {% if subquestion.question.classs == profile.classs %}
             <div class="card shadow-sm  mb-4" style="background:#f5f7fa; border:none">
