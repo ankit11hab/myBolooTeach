@@ -9,31 +9,37 @@
 
     li {
         display: inline;
+        padding-right: 8px;
     }
 
     iframe {
         overflow: hidden;
     }
+    
 </style>
 
 <div class="container" style = "margin-bottom: 30px;margin-top: 30px;">
     <div class="row">
-        <div class="col-8" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);border-radius: 10px;">
+        <div class="col-8" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);box-shadow: 6px 10px #888888;;border-radius: 10px;">
             <embed scrolling="no" frameborder="0"
                 src="../media/{{ question.paper_file }}#scrollbar=0&toolbar=0&navpanes=0&view=FitH" width="110%"
                 height="600px" style="transform: translate(-25px,-5px)"></embed>
         </div>
-        <div class="col-3" style = "margin-left:30px;padding: 20px 20px 20px 40px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 590px">
+        <div class="col-3" style = "margin-left:30px;padding: 20px 20px 20px 40px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 590px;box-shadow: 5px 10px #888888;">
             <form method="POST">
                 {% csrf_token %}
                 <!-- {{form}} -->
                 {% for field in form %}
-                    <div class = "row">
+                    <div class = "row card" style="margin-bottom: 4px;background: linear-gradient(to right, rgb(135, 78, 209), rgb(95, 46, 185));color: white;">
+                        <div class="card_body">
                         <div class = "col-1"><label class="my_class" for="{{ field.auto_id }}"><b>{{ field.label }}</b></label></div>
                         <div class = "col-10">{{ field }}</div>
                     </div>
+                    </div>
                 {% endfor %}
-                <button class = "btn btn-primary" type="submit" style = "float:right;margin-right: 10px;">Submit</button>
+                <div class="row">
+                <button class = "btn" type="submit" style = "float:right;margin-right: 10px;background: linear-gradient(to right, rgb(135, 78, 209), rgb(95, 46, 185));color: white;">Submit</button>
+                </div>
             </form>
         </div>
     </div>
