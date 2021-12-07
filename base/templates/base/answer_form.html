@@ -26,7 +26,7 @@
 <div class="container" style = "margin-bottom: 30px;margin-top: 30px;">
     
     <div style = "border:1px solid rgb(206, 206, 206); padding: 10px; width: 170px; border-radius: 10px;text-align: center;transform:translate(-10px,0); margin-bottom: 5px;">
-        <b><img src = "../media/images/alarm-clock.png" width = "26px" style = "transform: translate(0,-2px);"><span id='Timer' style='color: rgb(0, 0, 0);font-size: 18px;margin-left: 13px;'>00 : 00 : 00</span></b>
+        <b><img src = "../media/images/alarm-clock.png" width = "26px" style = "transform: translate(0,-2px);"><span id='Timer' style='color: rgb(98, 54, 139);font-size: 18px;margin-left: 13px;'>00 : 00 : 00</span></b>
     </div>
     
     <div class="row">
@@ -36,6 +36,8 @@
                 height="600px" style="transform: translate(-25px,-5px)"></embed>
         </div>
         <div class="col-3 ans-div" style = "margin-left:30px;padding: 20px 20px 20px 20px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 608px;box-shadow: 2px 1px #e0d0ff;overflow:scroll">
+            <div><h5>Mark your answers here<hr></h5></div>
+            
             <form method="POST">
                 {% csrf_token %}
                 <!-- {{form}} -->

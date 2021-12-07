@@ -26,7 +26,8 @@ def home(request):
             Submission(question=question, user=request.user, submitted=False).save()
     submissions = Submission.objects.filter(user = request.user, submitted = True)
     pending = Submission.objects.filter(user = request.user, submitted = False)
-    count = len(submissions)
+    count1 = len(submissions)
+    count2 = len(pending)
     submission1 = len(Submission.objects.filter(
         user=request.user, submitted=True, date_of_submission=datetime.now().date()))
     submission2 = len(Submission.objects.filter(
@@ -37,7 +38,7 @@ def home(request):
         user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*3)).date()))
     submission5 = len(Submission.objects.filter(
         user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*4)).date()))
-    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions': submissions, 'pending': pending, 'count': count, 'submission1': submission1, 'submission2': submission2, 'submission3': submission3, 'submission4': submission4, 'submission5': submission5})
+    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions': submissions, 'pending': pending, 'count1': count1,'count2': count2, 'submission1': submission1, 'submission2': submission2, 'submission3': submission3, 'submission4': submission4, 'submission5': submission5})
 
 
 @login_required
