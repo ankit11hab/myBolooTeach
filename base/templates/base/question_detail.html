@@ -1,28 +1,207 @@
 {% extends 'base/base.html' %}
 {% block content %}
 {% include 'base/navbar.html' %}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        width: 100%;
+    }
+
+    #title {
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .title-first {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+    }
+
+    .title-second {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .mark {
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        float: left;
+        background: white;
+        text-align: center;
+        width: 33%;
+    }
+
+    .round {
+        display: table;
+        margin: 0 auto;
+        padding: 15px;
+        background: linear-gradient(to right, rgb(135, 78, 209), rgb(95, 46, 185), rgb(50, 45, 112));
+        height: 70px;
+        width: 70px;
+        border-radius: 35px;
+        text-align: center;
+    }
+
+    #questions:after {
+        content: "NUMBER OF QUESTIONS";
+        font-size: 0.7rem;
+        background-color: rgb(50, 45, 112);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 20px;
+    }
+
+    #marks:after {
+        content: "MARKS PER QUESTION";
+        font-size: 0.7rem;
+        background-color: rgb(50, 45, 112);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 20px;
+    }
+
+    #total:after {
+        content: "TOTAL MARKS";
+        font-size: 0.7rem;
+        background-color: rgb(50, 45, 112);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 20px;
+    }
+
+    #marks-section {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        width: 100%;
+    }
+
+    #time-section {
+        width: 100%;
+        margin-top: 30px;
+        font-size: 1.2rem;
+    }
+
+    .time {
+        float: left;
+        background: white;
+        color: white;
+        text-align: center;
+        width: 50%;
+    }
+
+    .time-1 {
+        display: table;
+        margin: 0 auto;
+        padding: 15px;
+        background: linear-gradient(to right, rgb(135, 78, 209), rgb(95, 46, 185), rgb(50, 45, 112));
+        border-radius: 15px;
+        text-align: center;
+    }
+
+    #attempt-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        font-family: Montserrat;
+        color: white;
+        background-color: rgb(135, 78, 209);
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 1.5rem;
+        transition: 0.5s ease;
+    }
+
+    #attempt-btn:hover {
+        background-color: rgb(84, 33, 151);
+    }
+
+    #start-time:after {
+        content: "FROM";
+        font-size: 0.7rem;
+        background-color: rgb(50, 45, 112);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 20px;
+    }
+
+    #end-time:after {
+        content: "TO";
+        font-size: 0.7rem;
+        background-color: rgb(50, 45, 112);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 20px;
+    }
+</style>
+
+
+
 <div class="container">
-    <div><b>Question title: </b>{{ question.title }}</div>
+    <div id="title"> <span class="title-first">TITLE</span><br><span class="title-second">{{ question.title }}</span>
+    </div>
     {% if submission.submitted %}
     <b>Marks obtained: </b>{{submission.marks_obtd}}<br><br>
     <h4>Current Standings</h4>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Marks</th>
-        </tr>
-        {% for curr_submission in all_submissions %}
-        <tr>
-            <td>{{ curr_submission.user.username }}</td>
-            <td>{{ curr_submission.marks_obtd }}</td>
-        </tr>
-        {% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Student name</th>
+                <th scope="col">Marks obtained</th>
+                <th scope="col">Time taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curr_submission in all_submissions %}
+            
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ curr_submission.user.first_name }} {{ curr_submission.user.last_name }}</td>
+                <td>{{ curr_submission.marks_obtd }}</td>
+                <td>@mdo</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
+
     {% else %}
-    <div><b>Start time: </b>{{ question.start_time }}</div>
-    <div><b>End time: </b>{{ question.end_time }}</div>
-    <br>
-    <a href="{% url 'answer-form' question.id %}">Attempt</a>
+
+
+    <div id="marks-section">
+        <div id="questions" class="mark"><span class="round">{{ question.number_of_question }}</span></div>
+        <div id="marks" class="mark"><span class="round">{{ question.marks_per_question }}</span></div>
+        <div id="total" class="mark"><span class="round">{{question.full_marks}}</span></div>
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <div id="time-section">
+        <div id="start-time" class="time"><span class="time-1">{{ question.start_time }}</span></div>
+        <div id="end-time" class="time"><span class="time-1">{{ question.end_time }}</span></div>
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <a id="attempt-btn" href="{% url 'answer-form' question.id %}">Attempt</a>
+    <br><br><br><br><br><br>
     {% endif %}
 
 </div>

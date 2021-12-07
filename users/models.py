@@ -1,7 +1,8 @@
 from django.db import models
 from base.models import Question
-from django.contrib.auth.models import User
 import datetime
+from django.contrib.auth.models import User
+
 # Create your models here.
 class Submission(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -10,6 +11,7 @@ class Submission(models.Model):
     submitted = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_of_submission = models.DateField(default=datetime.date.today)
+
     def __str__(self):
         return f'{self.id}'
 

@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta
 from django.contrib import messages
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from .models import Question
 from django.contrib.auth.decorators import login_required
@@ -18,7 +18,7 @@ def home(request):
     user_profile = Profile.objects.filter(user=request.user).first()
     # if user_profile.first_name == "" or user_profile.mobile_no == "" or user_profile.classs==0:
     #     return redirect('profile_update')
-    if user_profile.mobile_no=="":
+    if user_profile.mobile_no=="" or  user_profile.first_name=="":
         return redirect('profile_update')
     questions = Question.objects.filter(classs=user_profile.classs)
     for question in questions:
@@ -53,8 +53,12 @@ def profile_update(request):
         classs = form['classs'].value()
         mobile_no = form['mobile_no'].value()
         school = form['school'].value()
+        user = request.user
         profile = Profile.objects.filter(user=request.user).first()
         profile.first_name=first_name
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
         profile.last_name=last_name
         profile.classs=classs
         profile.mobile_no=mobile_no
@@ -65,7 +69,6 @@ def profile_update(request):
         form = ProfileUpdateForm()
     return render(request, 'base/profile_update.html', {'form': form})
 
-
 @login_required
 def detail_view(request, pk):
     if not Profile.objects.filter(user=request.user).first().is_verified:
@@ -73,7 +76,7 @@ def detail_view(request, pk):
         return redirect('login')
     question = Question.objects.get(pk=pk)
     all_submissions = Submission.objects.filter(
-        question=question, submitted=True)
+        question=question, submitted=True).order_by('-marks_obtd')
     if Submission.objects.filter(question=question, user=request.user).first():
         submission = Submission.objects.filter(
             question=question, user=request.user).first()
@@ -81,7 +84,7 @@ def detail_view(request, pk):
         submission = Submission(
             question=question, submitted=False, submitted_answer="", user=request.user)
         submission.save()
-    return render(request, 'base/question_detail.html', {'question': question, 'submission': submission, 'all_submissions': all_submissions})
+    return render(request, 'base/question_detail.html', {'question': question, 'submission': submission, 'all_submissions': all_submissions,'profiles':Profile.objects.all()})
 
 
 @login_required
