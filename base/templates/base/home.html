@@ -21,7 +21,7 @@
           <div class="row g-0">
             <div class="col-md-6">
               <div class="card-body" style="margin-left: 40px;"><br>
-                <h2 class="card-title">A clear overview of your<br>performance</h2><br>
+                <h3 class="card-title">A clear overview of your<br>performance</h3><br>
                 <p class="card-text" style="font-size: 18px;color:gray">Get insights and stay engaged with
                   your<br>studies.</p><br> <a href="#pending" class="btn btn-primary"
                   style="letter-spacing: 1px;border-radius: 20px;background-color: white;color:#0d6efd"><b>VIEW QUESTIONS</b></a>
@@ -49,9 +49,10 @@
           </div>
         </div>
       </div>
-    <div class="card mb-4" id="pending">
+      {% if pending %}
+    <div class="card mb-4" id="pending" style = "margin-bottom: 8px;margin-top: 26px;">
         <div class="card-header" style="background-color: white;">
-            <h2 style = "padding-left: 40px;padding-right: 40px;">Pending Assignments</h2>
+            <h3 style = "padding-left: 40px;padding-right: 40px;">Pending Assignments</h3>
         </div>
         <div class="card-body" style = "padding-left: 40px;padding-right: 40px;">
             {% for pendquestion in pending %}
@@ -59,20 +60,20 @@
             <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
                 <div class="card-body row">
                     <div class = "col-3">
-                        <h4>{{ pendquestion.question.full_marks }}</h4>
+                        <h4 style = "font-size: 22px;">{{ pendquestion.question.full_marks }}</h4>
                         <span>{{ pendquestion.question.start_time.day }}/{{ pendquestion.question.start_time.month }}/{{ pendquestion.question.start_time.year }} | {{ pendquestion.question.start_time.time }}</span>
                     </div>
                     <div class = "col-6">
-                        <h4>{{ pendquestion.question.title }}</h4>
-                        <span>CHEM</span>
+                        <h4 style = "font-size: 22px;">{{ pendquestion.question.title }}</h4>
+                        <span>{{ pendquestion.question.subject }}</span>
                     </div>
                     <div class = "col-3">
                         {% if pendquestion.question.started and not pendquestion.question.ended %}
                         <div style="float: right;"><a href="{% url 'question-detail' pendquestion.question.id %}"
-                            class="btn btn-primary">Attempt</a></div>
+                            class="btn btn-primary" style = " font-size: 18px;">Attempt</a></div>
                         {% elif not pendquestion.question.started %}
                         <div style="float: right;"><a href="#"
-                        class="btn btn-primary disabled">Attempt at {{ pendquestion.question.start_time.day }}/{{ pendquestion.question.start_time.month }}/{{ pendquestion.question.start_time.year }} | {{ pendquestion.question.start_time.time }}</a></div>
+                        class="btn btn-primary disabled" style = " font-size: 18px;">Attempt at {{ pendquestion.question.start_time.day }}/{{ pendquestion.question.start_time.month }}/{{ pendquestion.question.start_time.year }} | {{ pendquestion.question.start_time.time }}</a></div>
                         {% endif %}
                     </div>
                 </div>
@@ -81,10 +82,12 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 
-    <div class="card mb-4" id="completed">
+    {% if submissions %}
+    <div class="card mb-4" id="completed" style = "margin-bottom: 8px;">
         <div class="card-header" style="background-color: white;">
-            <h2  style = "padding-left: 40px;padding-right: 40px;">Completed Assignments</h2>
+            <h3  style = "padding-left: 40px;padding-right: 40px;">Completed Assignments</h3>
         </div>
         <div class="card-body" style = "padding-left: 40px;padding-right: 40px;">
             {% for subquestion in submissions %}
@@ -92,16 +95,16 @@
             <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
                 <div class="card-body row">
                     <div class = "col-3">
-                        <h4>{{ subquestion.marks_obtd }}/{{ subquestion.question.full_marks }}</h4>
+                        <h4 style = "font-size: 22px;">{{ subquestion.marks_obtd }}/{{ subquestion.question.full_marks }}</h4>
                         <span>{{ subquestion.question.start_time.day }}/{{ subquestion.question.start_time.month }}/{{ subquestion.question.start_time.year }} | {{ subquestion.question.start_time.time }}</span>
                     </div>
                     <div class = "col-6">
-                        <h4>{{ subquestion.question.title }}</h4>
-                        <span>CHEM</span>
+                        <h4 style = "font-size: 22px;">{{ subquestion.question.title }}</h4>
+                        <span>{{ subquestion.question.subject }}</span>
                     </div>
                     <div class = "col-3">
                         <div style="float: right;"><a href="{% url 'question-detail' subquestion.question.id %}"
-                            class="btn btn-primary">View result</a></div>
+                            class="btn btn-primary" style = " font-size: 18px;">View result</a></div>
                     </div>
                 </div>
             </div>
@@ -127,9 +130,10 @@
         </div>
         
     </div>
+    {% endif %}
     <div class="card mb-4" id="performance">
         <div class="card-header" style="background-color: white;">
-            <h5>Daily Submissions</h5>
+            <h3 style = "margin-left: 40px;">Daily Submissions</h3>
         </div>
         <div class="card-body">
             <canvas id="chartLine" style="width:100%;height:300px;"></canvas>

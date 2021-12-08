@@ -153,12 +153,18 @@
 </style>
 
 
+
 <div class="container">
     <div id="title"> <span class="title-first">TITLE</span><br><span class="title-second">{{ question.title }}</span>
     </div>
     {% if submission.submitted %}
-    <b>Marks obtained: </b>{{submission.marks_obtd}}<br><br>
-    <h4>Current Standings</h4>
+    <h3 style = "text-align: center;">{{submission.marks_obtd}}/{{submission.question.full_marks}}</h3><br><br>
+    <!-- <div style = "position: relative;text-align: center;">
+        <div id = "marks-display" style = "position: absolute;top:85px; left: 85px;font-size: 28px;font-weight: 500;">00</div>
+        <canvas id="myChart" style = "position: absolute;top:0px" width="200" height="200"></canvas>
+    </div> -->
+    <!-- <div style = "margin-top: 200px;"> </div> -->
+    <h4>Current Standings</h4><hr style = "width: 220px;"><br><br>
     <table class="table">
         <thead>
             <tr>
@@ -204,4 +210,30 @@
     {% endif %}
 
 </div>
+
+<script>
+    document.getElementById('marks-display').innerText = "24"
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [23,5],
+                backgroundColor: [
+                    'rgba(0, 201, 92, 1)',
+                    'rgba(243, 246, 248, 1)'
+                ],
+                borderWidth: 0,
+                cutout: 62,
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: false,
+                tooltip: false,
+            }
+        }
+    });
+    </script>
 {% endblock %}

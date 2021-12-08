@@ -5,6 +5,7 @@ from django.utils import timezone
 class Question(models.Model):
     title = models.CharField(max_length=200)
     classs = models.IntegerField()
+    subject = models.CharField(max_length=100, default = "")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     paper_file = models.FileField(upload_to ='uploads/')
