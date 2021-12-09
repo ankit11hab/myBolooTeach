@@ -25,11 +25,18 @@ def home(request):
         if not Submission.objects.filter(question=question, user=request.user):
             Submission(question=question, user=request.user, submitted=False).save()
     submissions = Submission.objects.filter(user = request.user, submitted = True)
+    submitted = []
+    count = 0
+    for sub in submissions:
+        if count<=3:
+            submitted.append(sub)
     pending_raw = Submission.objects.filter(user = request.user, submitted = False)
     pending = []
+    count = 0
     for sub in pending_raw:
-        if not sub.question.ended():
+        if not sub.question.ended() and count<=3:
             pending.append(sub)
+            count=count+1
     count1 = len(submissions)
     count2 = len(pending)
     submission1 = len(Submission.objects.filter(
@@ -42,7 +49,42 @@ def home(request):
         user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*3)).date()))
     submission5 = len(Submission.objects.filter(
         user=request.user, submitted=True, date_of_submission=(datetime.now()-timedelta(hours=24*4)).date()))
-    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions': submissions, 'pending': pending, 'count1': count1,'count2': count2, 'submission1': submission1, 'submission2': submission2, 'submission3': submission3, 'submission4': submission4, 'submission5': submission5})
+    return render(request, 'base/home.html', {'questions': questions, 'profile': user_profile, 'submissions': submitted, 'pending': pending, 'count1': count1,'count2': count2, 'submission1': submission1, 'submission2': submission2, 'submission3': submission3, 'submission4': submission4, 'submission5': submission5})
+
+
+@login_required
+def pending_questions(request):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
+    user_profile = Profile.objects.filter(user=request.user).first()
+    if user_profile.mobile_no=="" or  user_profile.first_name=="":
+        return redirect('profile_update')
+    questions = Question.objects.filter(classs=user_profile.classs).order_by('start_time')
+    for question in questions:
+        if not Submission.objects.filter(question=question, user=request.user):
+            Submission(question=question, user=request.user, submitted=False).save()
+    pending_raw = Submission.objects.filter(user = request.user, submitted = False)
+    pending = []
+    for sub in pending_raw:
+        if not sub.question.ended():
+            pending.append(sub)
+    count2 = len(pending)
+    return render(request, 'base/all_pending.html', {'questions': questions, 'profile': user_profile, 'pending': pending,'count2': count2})
+
+@login_required
+def submitted_questions(request):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
+    user_profile = Profile.objects.filter(user=request.user).first()
+    if user_profile.mobile_no=="" or  user_profile.first_name=="":
+        return redirect('profile_update')
+    questions = Question.objects.filter(classs=user_profile.classs).order_by('start_time')
+    submissions = Submission.objects.filter(user = request.user, submitted = True)
+    count1 = len(submissions)
+    return render(request, 'base/all_submitted.html', {'questions': questions, 'profile': user_profile, 'submissions': submissions, 'count1': count1})
+
 
 
 @login_required

@@ -164,14 +164,13 @@
         <canvas id="myChart" style = "position: absolute;top:0px" width="200" height="200"></canvas>
     </div> -->
     <!-- <div style = "margin-top: 200px;"> </div> -->
-    <h4>Current Standings</h4><hr style = "width: 220px;"><br><br>
+    <h4>Current Standings</h4><hr style = "width: 220px;">
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Rank</th>
                 <th scope="col">Student name</th>
                 <th scope="col">Marks obtained</th>
-                <th scope="col"> Time taken</th>
             </tr>
         </thead>
         <tbody>
@@ -181,7 +180,6 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ curr_submission.user.first_name }} {{ curr_submission.user.last_name }}</td>
                 <td>{{ curr_submission.marks_obtd }}</td>
-                <td>@mdo</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -210,6 +208,7 @@
     {% endif %}
 
 </div>
+{% include 'base/footer.html' %}
 
 <script>
     document.getElementById('marks-display').innerText = "24"

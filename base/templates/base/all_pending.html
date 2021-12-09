@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+{% include 'base/navbar.html' %}
+
+<br>
+<style>
+    #circle {
+    background: linear-gradient(to top, rgb(101, 43, 236),rgb(182, 183, 255)) ;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    transform: translate(80px, -130px);
+}
+</style>
+<div class="container">
+    
+    {% if pending %}
+    <div class="card mb-4" id="pending" style = "margin-bottom: 8px;margin-top: 26px;">
+        <div class="card-header" style="background-color: white;">
+            <h3 style = "padding-left: 40px;padding-right: 40px;">Pending Assignments</h3>
+        </div>
+        <div class="card-body" style = "padding-left: 40px;padding-right: 40px;">
+            {% for pendquestion in pending %}
+            {% if pendquestion.question.classs == profile.classs and not pendquestion.question.ended %}
+            <div class="card shadow-sm rounded mb-4" style="background:#f5f7fa; border:none">
+                <div class="card-body row">
+                    <div class = "col-3">
+                        <h4 style = "font-size: 22px;">{{ pendquestion.question.full_marks }}</h4>
+                        <span>{{ pendquestion.question.start_time.day }}/{{ pendquestion.question.start_time.month }}/{{ pendquestion.question.start_time.year }} | {{ pendquestion.question.start_time.time }}</span>
+                    </div>
+                    <div class = "col-6">
+                        <h4 style = "font-size: 22px;">{{ pendquestion.question.title }}</h4>
+                        <span>{{ pendquestion.question.subject }}</span>
+                    </div>
+                    <div class = "col-3">
+                        {% if pendquestion.question.started and not pendquestion.question.ended %}
+                        <div style="float: right;"><a href="{% url 'question-detail' pendquestion.question.id %}"
+                            class="btn btn-primary" style = " font-size: 18px;">Attempt</a></div>
+                        {% elif not pendquestion.question.started %}
+                        <div style="float: right;"><a href="#"
+                        class="btn btn-primary disabled" style = " font-size: 18px;">Attempt at {{ pendquestion.question.start_time.day }}/{{ pendquestion.question.start_time.month }}/{{ pendquestion.question.start_time.year }} | {{ pendquestion.question.start_time.time }}</a></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% include 'base/footer.html' %}
+
+{% endblock %}

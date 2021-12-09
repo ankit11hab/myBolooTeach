@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('profile', views.profile_update, name='profile_update'),
+    path('pending', views.pending_questions, name='pending-questions'),
+    path('submitted', views.submitted_questions, name='submitted-questions'),
     path('question/<int:pk>', views.detail_view, name='question-detail'),
     path('answers/<int:pk>', views.answer_form, name='answer-form'),
     # Password reset urls

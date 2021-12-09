@@ -14,7 +14,6 @@
 }
 </style>
 <div class="container">
-    <h3 class = "mb-4" style = "color:rgb(80, 0, 133);font-family:cursive ;">Welcome {{ profile.first_name }} {{ profile.last_name }}!</h3>
 
     <div style=" margin-top:40px">
         <div class="card mb-3 w-100">
@@ -80,6 +79,8 @@
             </div>
             {% endif %}
             {% endfor %}
+            <a class="btn btn-primary"
+            style="letter-spacing: 1px;border-radius: 20px;background-color: white;color:#0d6efd" href = "{% url 'pending-questions' %}"><b>SEE ALL</b></a>
         </div>
     </div>
     {% endif %}
@@ -126,7 +127,8 @@
             {% endif %}
             {% endfor %}
         </ul> -->
-        
+        <a class="btn btn-primary"
+            style="letter-spacing: 1px;border-radius: 20px;background-color: white;color:#0d6efd" href = "{% url 'submitted-questions' %}"><b>SEE ALL</b></a>
         </div>
         
     </div>
@@ -140,6 +142,8 @@
         </div>
     </div>
 </div>
+
+{% include 'base/footer.html' %}
 
 <script>
     const data = {
