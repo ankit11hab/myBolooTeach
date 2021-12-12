@@ -2,6 +2,12 @@
 
 {% block content %}
 {% include 'base/navbar.html' %}
+
+<script>
+    let myName = "{{ profile.school }}"+"-"+"{{ profile.first_name }}"+"-"+"{{ profile.last_name }}";
+    console.log(myName)
+</script>
+
 <style>
     ul {
         list-style: none;
@@ -49,15 +55,21 @@
                 {% endfor %}
                 <button id = "SubmitButton" class = "btn btn-success" type="submit" style = "width:100%;margin-top: 5px;">Submit</button>
             </form>
-            <video width="95%" style="margin-top: 10px;">
+            <video width="95%" style="margin-top: 10px;" id="localVideo" autoplay playsinline muted>
                 Your browser does not support the video tag.
+                Open with a different browser.
             </video>
+            <!-- <video width="95%" style="margin-top: 10px;" id="localVideo" autoplay playsinline>
+                Your browser does not support the video tag.
+                Open with a different browser.
+            </video> -->
         </div>
     </div>
 
 </div>
 {% include 'base/footer.html' %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="..\static\student.js"></script>
 <script>
     var defaultFormat = "MMM. D, YYYY, H:mm a"
     var endtime = moment("{{question.end_time}}",defaultFormat).format("MMM. D, YYYY, HH:mm:ss")
@@ -85,6 +97,9 @@
         document.getElementById("Timer").innerHTML = "Test Finished";
     }
 }, 1000);
+</script>
+<script>
+    connectSocket();
 </script>
 <script>
     var constraints = { audio: true, video: true };
