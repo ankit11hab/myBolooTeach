@@ -207,7 +207,7 @@ function beReady() {
     // return createConnectionAndAddStream()
 
     return navigator.mediaDevices.getUserMedia({
-        audio: false,
+        audio: true,
         video: true
     })
         .then(stream => {
