@@ -1,8 +1,6 @@
 'use strict';
 
 const baseURL = "/"
-
-// let localVideo = document.querySelector('#localVideo');
 let localVideo = null;
 let remoteVideo = document.querySelector('#remoteVideo');
 
@@ -46,8 +44,6 @@ let pcConfig = {
     "iceServers":
         [
             {"url": "stun:stun.l.google.com:19302"}
-            // {"url": "stun:stun2.l.google.com:19302"},
-            // {"url": "stun:stun3.l.google.com:19302"}
         ]
 };
 
@@ -113,7 +109,6 @@ function connectSocket() {
         otherUser = data.caller;
         remoteRTCMessage = data.rtcMessage
 
-        // document.getElementById("profileImageA").src = baseURL + callerProfile.image;
         document.getElementById("callerName").innerHTML = otherUser;
         document.getElementById("call").style.display = "none";
         document.getElementById("answer").style.display = "block";
@@ -133,7 +128,6 @@ function connectSocket() {
     }
 
     const onICECandidate = (data) =>{
-        // console.log(data);
         console.log("GOT ICE candidate");
 
         let message = data.rtcMessage
@@ -172,8 +166,6 @@ function sendCall(data) {
     }));
 
     document.getElementById("call").style.display = "none";
-    // document.getElementById("profileImageCA").src = baseURL + otherUserProfile.image;
-    // document.getElementById("otherUserNameCA").innerHTML = otherUser;
     document.getElementById("calling").style.display = "block";
 }
 
@@ -204,7 +196,6 @@ function answerCall(data) {
 function sendICEcandidate(data) {
     //send only if we have caller, else no need to
     console.log("Send ICE candidate");
-    // socket.emit("ICEcandidate", data)
     callSocket.send(JSON.stringify({
         type: 'ICEcandidate',
         data
@@ -222,7 +213,6 @@ function beReady() {
         .then(stream => {
             console.log(stream)
             localStream = stream;
-            // localVideo.srcObject = stream;
 
             return createConnectionAndAddStream()
         })
@@ -257,10 +247,6 @@ function processAccept() {
         peerConnection.setLocalDescription(sessionDescription);
 
         if (iceCandidatesFromCaller.length > 0) {
-            //I am having issues with call not being processed in real world (internet, not local)
-            //so I will push iceCandidates I received after the call arrived, push it and, once we accept
-            //add it as ice candidate
-            //if the offer rtc message contains all thes ICE candidates we can ingore this.
             for (let i = 0; i < iceCandidatesFromCaller.length; i++) {
                 //
                 let candidate = iceCandidatesFromCaller[i];
@@ -296,7 +282,6 @@ function processAccept() {
 function createPeerConnection() {
     try {
         peerConnection = new RTCPeerConnection(pcConfig);
-        // peerConnection = new RTCPeerConnection();
         peerConnection.onicecandidate = handleIceCandidate;
         peerConnection.onaddstream = handleRemoteStreamAdded;
         peerConnection.onremovestream = handleRemoteStreamRemoved;
@@ -310,10 +295,8 @@ function createPeerConnection() {
 }
 
 function handleIceCandidate(event) {
-    // console.log('icecandidate event: ', event);
     if (event.candidate) {
         console.log("Local ICE candidate");
-        // console.log(event.candidate.candidate);
 
         sendICEcandidate({
             user: otherUser,
@@ -364,7 +347,6 @@ function stop() {
 function callProgress() {
 
     document.getElementById("videos").style.display = "block";
-    // document.getElementById("otherUserNameC").innerHTML = otherUser;
     document.getElementById("inCall").style.display = "block";
 
     callInProgress = true;
