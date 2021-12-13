@@ -348,6 +348,8 @@ function callProgress() {
 
     document.getElementById("videos").style.display = "block";
     document.getElementById("inCall").style.display = "block";
-
+    var details = otherUser.split("-")
+    console.log(details)
+    document.getElementById("otherUserNameC").innerHTML = details[1] + " " + details[2];
     callInProgress = true;
 }
