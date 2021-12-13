@@ -140,6 +140,7 @@ def answer_form(request, pk):
         messages.error(request,'Please verify your account')
         return redirect('login')
     question = Question.objects.get(pk=pk)
+    user_profile = Profile.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = SubmissionForm(question.number_of_question,request.POST)
         ans = ""
@@ -162,4 +163,7 @@ def answer_form(request, pk):
         return redirect('question-detail', pk)
     else:
         form = SubmissionForm(n=question.number_of_question)
-    return render(request, 'base/answer_form.html', {'question': question, 'form': form})
+    return render(request, 'base/answer_form.html', {'question': question,'profile': user_profile, 'form': form})
+
+def institute(request):
+    return render(request, 'base/institute.html')
