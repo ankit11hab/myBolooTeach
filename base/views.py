@@ -167,3 +167,13 @@ def answer_form(request, pk):
 
 def institute(request):
     return render(request, 'base/institute.html')
+
+@login_required
+def envcheck(request, pk):
+    if not Profile.objects.filter(user=request.user).first().is_verified:
+        messages.error(request,'Please verify your account')
+        return redirect('login')
+    question = Question.objects.get(pk=pk)
+    user_profile = Profile.objects.filter(user=request.user).first()
+    context = {'question': question,'profiles':Profile.objects.all(), 'profile':user_profile}
+    return render(request, 'base/envcheck.html', context)
