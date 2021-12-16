@@ -1,0 +1,160 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% include 'base/navbar.html' %}
+
+<style>
+    .h-100, #attempt-btn, #message{
+        font-size: large;
+    }
+
+    #attempt-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        font-family: Montserrat;
+        color: white;
+        background-color: rgb(84, 33, 151);
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 1.5rem;
+        transition: 0.5s ease;
+        width: 30%;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    #attempt-btn:hover {
+        background-color: rgb(255, 0, 0);
+    }
+</style>
+
+<div class="container h-100" style="min-width: 100%;">
+    <div class="row">
+        <div class="col-12" style="margin-top:25px; margin-bottom: 25px;">
+            <h1 class="text-center h1"><b>ENVIRONMENT CHECK</b></h1>
+        </div>
+    </div>
+    <div class="row mt-2" style='margin-right: 20px;'>
+        <div class="col-lg-4 col-12 d-flex flex-column justify-content-center align-items-center">
+            <div class="card bg-dark" id="cameraStreamCard">
+                <video id="camera" style="width: 320; height: 240;" playsinline="" muted="" autoplay="" width="320" height="240">Loading</video>
+            </div>
+
+        </div>
+        <div class="col-lg-8 col-12 justify-content-center px-1 px-md-3 my-3 mt-lg-0" id="statusDiv">
+            <div class="card w-100">
+                <div class="card-header ct-card-header py-1 px-2" style='background-color: black;'>
+                    <div class="m-0 p-0">
+                        <div style="padding-left: 10px; color: white;">
+                            <h3><b>{{ profile.first_name }} {{ profile.last_name }}</b></h3>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush ">
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                            Internet Speed Test
+                            </div>
+                            <div class="col-8" ><span id="InternetSpeed">Loading...</span></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                BROWSER
+                            </div>
+                            <div class="col-8" id="browserCheckStatus"><span>Checking.....</span></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                Location
+                            </div>
+                            <div class="col-8">
+                                <span id="LocationStatus"><span>Loading....</span></span>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                WEBCAM
+                            </div>
+                            <div class="col-8"><span id="webcamCheckStatus">Loading.....</span></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                MICROPHONE
+                            </div>
+                            <div class="col-8"><span>Please say some words.........</span>
+                                <span id="microphoneCheckStatus"><b style='color:rgb(226, 183, 102);'>Waiting</b></span>
+                            <div class="MicrophoneResult" style="border: 1px solid black;">
+                                <div id="MicrophoneResult" style="height:24px; width:0%; background-color: rgb(226, 183, 102);"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2 d-none" id="locationCheckListItem">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                LOCATION
+                            </div>
+                            <div class="col-8" id="locationCheckStatus"><span>OK</span></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="attempt-btn" onclick='StartTest()'><b>Start Test</b></button>
+
+<div>
+    <b id="message" style="color: red; margin: auto; margin-top: 5px;"></b>
+</div>
+
+<script src="..\static\envcheck.js"></script>
+
+<script>
+function StartTest(){
+    
+    var success = 0;
+
+    if(document.getElementById('InternetSpeed').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('browserCheckStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('LocationStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('webcamCheckStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('MicrophoneResult').style.backgroundColor=='green'){
+        success ++ ;
+    }
+
+    if(success==5){
+        window.location.replace('{% url "answer-form" question.id %}');
+    }
+    else{
+        document.getElementById('message').innerHTML = 'Environment Check was Unsuccesfull'
+    }
+
+}
+</script>
+{% endblock %}
