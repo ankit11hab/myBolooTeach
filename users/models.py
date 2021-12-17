@@ -15,6 +15,13 @@ class Submission(models.Model):
     def __str__(self):
         return f'{self.id}'
 
+    @property
+    def number_of_correct(self):
+        if self.question.marks_per_question>0:
+            return int(self.marks_obtd/self.question.marks_per_question)
+        else:
+            return 0
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=200, default="")

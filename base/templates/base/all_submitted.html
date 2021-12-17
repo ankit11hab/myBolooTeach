@@ -13,7 +13,7 @@
     transform: translate(80px, -130px);
 }
 </style>
-<div class="container">
+<div class="container" style = "min-height: 400px;">
 
 
     {% if submissions %}
@@ -45,6 +45,11 @@
         
         </div>
         
+    </div>
+    {% else %}
+    <div style = "text-align: center; margin-top: 80px;">
+        <img src = "../media/images/Nocompleted.svg" width = "300px">
+        <div style = "margin-top: 30px;font-size: 20px;">Hola! You don't have anything assigned right now!</div>
     </div>
     {% endif %}
 </div>

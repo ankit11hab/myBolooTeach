@@ -27,7 +27,6 @@
     }
 
     .mark {
-        color: white;
         font-weight: bold;
         font-size: 1.5rem;
         float: left;
@@ -40,7 +39,7 @@
         display: table;
         margin: 0 auto;
         padding: 15px;
-        background: linear-gradient(to right, rgb(135, 78, 209), rgb(95, 46, 185), rgb(50, 45, 112));
+        background: rgb(244, 244, 255);
         height: 70px;
         width: 70px;
         border-radius: 35px;
@@ -49,8 +48,8 @@
 
     #questions:after {
         content: "NUMBER OF QUESTIONS";
-        font-size: 0.7rem;
-        background-color: rgb(50, 45, 112);
+        font-size: 0.8rem;
+        background-color: rgb(244, 244, 255);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
@@ -60,8 +59,8 @@
 
     #marks:after {
         content: "MARKS PER QUESTION";
-        font-size: 0.7rem;
-        background-color: rgb(50, 45, 112);
+        font-size: 0.8rem;
+        background-color: rgb(244, 244, 255);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
@@ -71,8 +70,8 @@
 
     #total:after {
         content: "TOTAL MARKS";
-        font-size: 0.7rem;
-        background-color: rgb(50, 45, 112);
+        font-size:0.8rem;
+        background-color: rgb(244, 244, 255);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
@@ -95,7 +94,6 @@
     .time {
         float: left;
         background: white;
-        color: white;
         text-align: center;
         width: 50%;
     }
@@ -104,7 +102,7 @@
         display: table;
         margin: 0 auto;
         padding: 15px;
-        background: linear-gradient(to right, rgb(135, 78, 209), rgb(95, 46, 185), rgb(50, 45, 112));
+        background:rgb(244, 244, 255);
         border-radius: 15px;
         text-align: center;
     }
@@ -114,25 +112,19 @@
         width: 100%;
         text-align: center;
         text-decoration: none;
-        font-family: Montserrat;
-        color: white;
-        background-color: rgb(135, 78, 209);
         padding: 10px;
         border-radius: 10px;
         margin-left: 20px;
         margin-right: 20px;
         font-size: 1.5rem;
-        transition: 0.5s ease;
     }
 
-    #attempt-btn:hover {
-        background-color: rgb(84, 33, 151);
-    }
 
     #start-time:after {
         content: "FROM";
         font-size: 0.7rem;
-        background-color: rgb(50, 45, 112);
+        font-weight: bold;
+        background-color: rgb(244, 244, 255);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
@@ -143,7 +135,8 @@
     #end-time:after {
         content: "TO";
         font-size: 0.7rem;
-        background-color: rgb(50, 45, 112);
+        font-weight: bold;
+        background-color: rgb(244, 244, 255);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
@@ -158,18 +151,29 @@
     <div id="title"> <span class="title-first">TITLE</span><br><span class="title-second">{{ question.title }}</span>
     </div>
     {% if submission.submitted %}
-    <h3 style = "text-align: center;">{{submission.marks_obtd}}/{{submission.question.full_marks}}</h3><br><br>
+    <br>
     <!-- <div style = "position: relative;text-align: center;">
-        <div id = "marks-display" style = "position: absolute;top:85px; left: 85px;font-size: 28px;font-weight: 500;">00</div>
-        <canvas id="myChart" style = "position: absolute;top:0px" width="200" height="200"></canvas>
-    </div> -->
-    <!-- <div style = "margin-top: 200px;"> </div> -->
-    <h4>Current Standings</h4><hr style = "width: 220px;">
-    <table class="table">
+        <div id = "marks-display" style = "font-size: 28px;font-weight: 500;">00</div>
+        <canvas id="myChart" width="200" height="200"></canvas>
+    </div>
+    <div style = "margin-top: 200px;"> </div> -->
+    <div class = "row">
+        <div class = "col-6" style = "padding-right: 50px;">
+            <div style = "float: right;">
+                <canvas id="myChart1" width="200" height="300"></canvas>
+            </div>
+            
+            <div class = "absolute" style = "float: right;margin-top:140px;transform: translate(136px,0);"><h3 style = "color:rgb(85, 85, 85)">{{submission.marks_obtd}}/{{submission.question.full_marks}}</h3></div>
+        </div>
+        <div class = "col-6" style = "padding-left: 60px;"><canvas id="myChart" width="300" height="300"></canvas></div>
+    </div>
+    <center><h3 style = "margin-top:55px">Current Standings</h3>
+    <table style = "margin-top:60px;width:700px" class="table">
         <thead>
             <tr>
                 <th scope="col">Rank</th>
                 <th scope="col">Student name</th>
+                <th scope="col">Correct questions</th>
                 <th scope="col">Marks obtained</th>
             </tr>
         </thead>
@@ -179,11 +183,45 @@
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ curr_submission.user.first_name }} {{ curr_submission.user.last_name }}</td>
+                <td>{{ curr_submission.number_of_correct }}</td>
                 <td>{{ curr_submission.marks_obtd }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</center>
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Highest', 'Average', 'Your marks'],
+        datasets: [{
+            label: '# of Votes',
+            data: [{{highest}}, {{average}}, {{submission.marks_obtd}}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
 
     {% else %}
 
@@ -197,13 +235,13 @@
     <br><br><br><br><br><br>
 
     <div id="time-section">
-        <div id="start-time" class="time"><span class="time-1">{{ question.start_time }}</span></div>
-        <div id="end-time" class="time"><span class="time-1">{{ question.end_time }}</span></div>
+        <div id="start-time" class="time"><span class="time-1"><b>{{ question.start_time.time }}</b></span></div>
+        <div id="end-time" class="time"><span class="time-1"><b>{{ question.end_time.time }}</b></span></div>
     </div>
 
     <br><br><br><br><br><br>
 
-    <a id="attempt-btn" href="{% url 'answer-form' question.id %}">Attempt</a>
+    <a href="{% url 'answer-form' question.id %}"><button id="attempt-btn" class = "btn btn-primary">Attempt</button></a>
     <br><br><br><br><br><br>
     {% endif %}
 
@@ -211,28 +249,29 @@
 {% include 'base/footer.html' %}
 
 <script>
-    document.getElementById('marks-display').innerText = "24"
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [23,5],
-                backgroundColor: [
-                    'rgba(0, 201, 92, 1)',
-                    'rgba(243, 246, 248, 1)'
-                ],
-                borderWidth: 0,
-                cutout: 62,
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: false,
-                tooltip: false,
-            }
+    var tasksCompletedChart = new Chart(document.getElementById('myChart1').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [{{submission.marks_obtd}},{{submission.question.full_marks}}-{{submission.marks_obtd}}],
+          backgroundColor: [
+            'rgba(0, 201, 92, 0.3)',
+            'rgba(243, 246, 248, 0.3)'
+          ],
+          borderColor: [
+            'rgba(0, 201, 92, 1)',
+            'rgba(243, 246, 248, 1)'
+            ],
+            borderWidth: 1,
+          cutout: 62,
+        }]
+      },
+      options: {
+        responsive: false,
+        tooltips: {
+          enabled: false
         }
+      }
     });
     </script>
 {% endblock %}

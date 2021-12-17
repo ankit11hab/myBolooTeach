@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-{% include 'base/navbar.html' %}
+
 <style>
     ul {
         list-style: none;
@@ -24,7 +24,12 @@
 </style>
 
 <div class="container" style = "margin-bottom: 30px;margin-top: 30px;">
-    
+    <div id = "first_part" style = "text-align: center; margin-top: 80px;">
+        <img src = "../media/images/wishes.svg" width = "300px">
+        <div style = "margin-top: 30px;font-size: 20px;">Hi there, I know you will do great. <br>A small tip: Please don't try to close the fullscreen. Else your answer will get submitted automatically!<br><br>Wish you all the best!</div><br>
+        <button class = "btn btn-primary" onclick="clicked()">Start test</button>
+    </div>
+    <div id = "display_question" style = "display: none;">
     <div style = "border:1px solid rgb(206, 206, 206); padding: 10px; width: 170px; border-radius: 10px;text-align: center;transform:translate(-10px,0); margin-bottom: 5px;">
         <b><img src = "../media/images/alarm-clock.png" width = "26px" style = "transform: translate(0,-2px);"><span id='Timer' style='color: rgb(98, 54, 139);font-size: 18px;margin-left: 13px;'>00 : 00 : 00</span></b>
     </div>
@@ -51,10 +56,24 @@
             </form>
         </div>
     </div>
+    </div>
 
 </div>
-{% include 'base/footer.html' %}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    document.onfullscreenchange = ()=>{
+        if(document.fullscreen==false)
+            document.getElementById("SubmitButton").click();
+    }
+    
+    function clicked()
+    {
+        document.getElementById('first_part').style.display="none";
+        document.getElementById('display_question').style.display="block";
+        document.documentElement.requestFullscreen();
+    }
+</script> 
 <script>
     var defaultFormat = "MMM. D, YYYY, H:mm a"
     var endtime = moment("{{question.end_time}}",defaultFormat).format("MMM. D, YYYY, HH:mm:ss")

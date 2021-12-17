@@ -124,6 +124,20 @@ def detail_view(request, pk):
     question = Question.objects.get(pk=pk)
     all_submissions = Submission.objects.filter(
         question=question, submitted=True).order_by('-marks_obtd')
+    cont = 0
+    sum = 0
+    for sub in all_submissions:
+        cont=cont+1
+        sum = sum+sub.marks_obtd
+    if cont>0:
+        average = sum/cont
+    else:
+        average=0
+    if all_submissions.first():
+        highest = all_submissions.first().marks_obtd
+    else:
+        highest = 0
+
     if Submission.objects.filter(question=question, user=request.user).first():
         submission = Submission.objects.filter(
             question=question, user=request.user).first()
@@ -131,7 +145,7 @@ def detail_view(request, pk):
         submission = Submission(
             question=question, submitted=False, submitted_answer="", user=request.user)
         submission.save()
-    return render(request, 'base/question_detail.html', {'question': question, 'submission': submission, 'all_submissions': all_submissions,'profiles':Profile.objects.all()})
+    return render(request, 'base/question_detail.html', {'question': question, 'submission': submission, 'all_submissions': all_submissions,'profiles':Profile.objects.all(), 'average':average,'highest':highest})
 
 
 @login_required
