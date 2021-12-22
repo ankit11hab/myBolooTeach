@@ -40,7 +40,8 @@
     <div class="row mt-2" style='margin-right: 20px;'>
         <div class="col-lg-4 col-12 d-flex flex-column justify-content-center align-items-center">
             <div class="card bg-dark" id="cameraStreamCard">
-                <video id="camera" style="width: 320; height: 240;" playsinline="" muted="" autoplay="" width="320" height="240">Loading</video>
+                <video id="video" autoplay style="display: none"></video>
+                <canvas id="canvas" width="360px" height="240px"></canvas>
             </div>
 
         </div>
@@ -101,20 +102,20 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item p-2 d-none" id="locationCheckListItem">
+                    <li class="list-group-item p-2">
                         <div class="row">
                             <div class="col-4 text-nowrap">
-                                LOCATION
+                                Face Detection
                             </div>
-                            <div class="col-8" id="locationCheckStatus"><span>OK</span></div>
+                            <div class="col-8" id="FaceDetectStatus"><span>Loading.....</span></div>
                         </div>
                     </li>
                 </ul>
             </div>
+            <b style="color: red;">Tip : Wait for a few seconds for camera to start</b>
         </div>
     </div>
 </div>
-
 <button id="attempt-btn" onclick='StartTest()'><b>Start Test</b></button>
 
 <div>
@@ -148,7 +149,11 @@ function StartTest(){
         success ++ ;
     }
 
-    if(success==5){
+    if(document.getElementById('FaceDetectStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(success==6){
         window.location.replace('{% url "answer-form" question.id %}');
     }
     else{
@@ -156,5 +161,59 @@ function StartTest(){
     }
 
 }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+  <script>
+      const widthratio = 1.666 
+      const heightratio = 1.666
+        let video = document.getElementById("video");
+      let model;
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+
+      const setupCamera = () => {
+        navigator.mediaDevices.getUserMedia({video: { width: 600, height: 400 },audio: false,})
+          .then((stream) => {
+            video.srcObject = stream;
+            });
+        };
+
+      const detectFaces = async () => {
+      const prediction = await model.estimateFaces(video, false);
+
+      if(prediction.length == 0){
+        document.getElementById('FaceDetectStatus').innerHTML = '<b style="color:red">Face Not Visible</b>'
+      }else{
+        document.getElementById('FaceDetectStatus').innerHTML = '<b style="color:green">OK</b>'
+      }
+
+      // draw the video first
+      ctx.drawImage(video, 0, 0, 600/widthratio, 400/heightratio);
+
+      prediction.forEach((pred) => {
+
+          ctx.beginPath();
+          ctx.lineWidth = "4";
+          ctx.strokeStyle = "blue";
+          
+          ctx.rect((pred.topLeft[0])/widthratio,(pred.topLeft[1])/heightratio,
+          (pred.bottomRight[0] - pred.topLeft[0])/widthratio,(pred.bottomRight[1] - pred.topLeft[1])/heightratio);
+          ctx.stroke();
+          
+          ctx.fillStyle = "red";
+          pred.landmarks.forEach((landmark) => {
+          ctx.fillRect(landmark[0]/widthratio, landmark[1]/heightratio, 5, 5);
+          });
+          
+      });
+      };
+
+      setupCamera();
+      video.addEventListener("loadeddata", async () => {
+      model = await blazeface.load();
+      // call detect faces every 100 milliseconds or 10 times every second
+      setInterval(detectFaces, 100);
+      });
 </script>
 {% endblock %}

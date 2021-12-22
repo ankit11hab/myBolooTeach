@@ -47,12 +47,7 @@ function checkUserCamera(){
 
     navigator.mediaDevices.getUserMedia(constraints)
     .then(function(mediaStream) {
-        var video = document.querySelector('#camera');
-        video.srcObject = mediaStream;
         document.querySelector('#webcamCheckStatus').innerHTML = '<span style="color:green"><b>Successfull<b><span>'
-        video.onloadedmetadata = function(e) {
-            video.play();
-        };
     })
     .catch(function(err) { 
         // alert("Camera/Microphone not detected" + "\nYou will be redirected to dashboard");
