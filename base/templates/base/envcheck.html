@@ -1,0 +1,219 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% include 'base/navbar.html' %}
+
+<style>
+    .h-100, #attempt-btn, #message{
+        font-size: large;
+    }
+
+    #attempt-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        font-family: Montserrat;
+        color: white;
+        background-color: rgb(84, 33, 151);
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 1.5rem;
+        transition: 0.5s ease;
+        width: 30%;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    #attempt-btn:hover {
+        background-color: rgb(255, 0, 0);
+    }
+</style>
+
+<div class="container h-100" style="min-width: 100%;">
+    <div class="row">
+        <div class="col-12" style="margin-top:25px; margin-bottom: 25px;">
+            <h1 class="text-center h1"><b>ENVIRONMENT CHECK</b></h1>
+        </div>
+    </div>
+    <div class="row mt-2" style='margin-right: 20px;'>
+        <div class="col-lg-4 col-12 d-flex flex-column justify-content-center align-items-center">
+            <div class="card bg-dark" id="cameraStreamCard">
+                <video id="video" autoplay style="display: none"></video>
+                <canvas id="canvas" style="margin-left: 4px;" width="360px" height="240px"></canvas>
+            </div>
+
+        </div>
+        <div class="col-lg-8 col-12 justify-content-center px-1 px-md-3 my-3 mt-lg-0" id="statusDiv">
+            <div class="card w-100">
+                <div class="card-header ct-card-header py-1 px-2" style='background-color: black;'>
+                    <div class="m-0 p-0">
+                        <div style="padding-left: 10px; color: white;">
+                            <h3><b>{{ profile.first_name }} {{ profile.last_name }}</b></h3>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush ">
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 =">
+                            Internet Speed Test
+                            </div>
+                            <div class="col-8"  ><span id="InternetSpeed" >Loading...</span></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                BROWSER
+                            </div>
+                            <div class="col-8" id="browserCheckStatus"><span>Checking.....</span></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                Location
+                            </div>
+                            <div class="col-8">
+                                <span id="LocationStatus"><span>Loading....</span></span>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                WEBCAM
+                            </div>
+                            <div class="col-8"><span id="webcamCheckStatus">Loading.....</span></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                MICROPHONE
+                            </div>
+                            <div class="col-8"><span>Please say some words.........</span>
+                                <span id="microphoneCheckStatus"><b style='color:rgb(226, 183, 102);'>Waiting</b></span>
+                            <div class="MicrophoneResult" style="border: 1px solid black;">
+                                <div id="MicrophoneResult" style="height:24px; width:0%; background-color: rgb(226, 183, 102);"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item p-2">
+                        <div class="row">
+                            <div class="col-4 text-nowrap">
+                                Face Detection
+                            </div>
+                            <div class="col-8" id="FaceDetectStatus"><span>Loading.....</span></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <b style="color: red;">Tip : Wait for a few seconds for camera to start</b>
+        </div>
+    </div>
+</div>
+<button id="attempt-btn" onclick='StartTest()'><b>Start Test</b></button>
+
+<div>
+    <b id="message" style="color: red; margin: auto; margin-top: 5px;"></b>
+</div>
+
+<script src="..\static\envcheck.js"></script>
+
+<script>
+function StartTest(){
+    
+    var success = 0;
+
+    if(document.getElementById('InternetSpeed').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('browserCheckStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('LocationStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('webcamCheckStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('MicrophoneResult').style.backgroundColor=='green'){
+        success ++ ;
+    }
+
+    if(document.getElementById('FaceDetectStatus').children[0].style.color=='green'){
+        success ++ ;
+    }
+
+    if(success==6){
+        window.location.replace('{% url "answer-form" question.id %}');
+    }
+    else{
+        document.getElementById('message').innerHTML = 'Environment Check was Unsuccesfull'
+    }
+
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+  <script>
+      const widthratio = 1.666 
+      const heightratio = 1.666
+        let video = document.getElementById("video");
+      let model;
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+
+      const setupCamera = () => {
+        navigator.mediaDevices.getUserMedia({video: { width: 600, height: 400 },audio: false,})
+          .then((stream) => {
+            video.srcObject = stream;
+            });
+        };
+
+      const detectFaces = async () => {
+      const prediction = await model.estimateFaces(video, false);
+
+      if(prediction.length == 0){
+        document.getElementById('FaceDetectStatus').innerHTML = '<b style="color:red">Face Not Visible</b>'
+      }else{
+        document.getElementById('FaceDetectStatus').innerHTML = '<b style="color:green">OK</b>'
+      }
+
+      // draw the video first
+      ctx.drawImage(video, 0, 0, 600/widthratio, 400/heightratio);
+
+      prediction.forEach((pred) => {
+
+          ctx.beginPath();
+          ctx.lineWidth = "4";
+          ctx.strokeStyle = "blue";
+          
+          ctx.rect((pred.topLeft[0])/widthratio,(pred.topLeft[1])/heightratio,
+          (pred.bottomRight[0] - pred.topLeft[0])/widthratio,(pred.bottomRight[1] - pred.topLeft[1])/heightratio);
+          ctx.stroke();
+          
+          ctx.fillStyle = "red";
+          pred.landmarks.forEach((landmark) => {
+          ctx.fillRect(landmark[0]/widthratio, landmark[1]/heightratio, 5, 5);
+          });
+          
+      });
+      };
+
+      setupCamera();
+      video.addEventListener("loadeddata", async () => {
+      model = await blazeface.load();
+      // call detect faces every 100 milliseconds or 10 times every second
+      setInterval(detectFaces, 100);
+      });
+</script>
+{% endblock %}

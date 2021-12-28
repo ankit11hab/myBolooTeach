@@ -7,6 +7,7 @@
 <style>
     body {
         width: 100%;
+        overflow-x: hidden;
     }
 
     #title {
@@ -45,7 +46,9 @@
         border-radius: 35px;
         text-align: center;
     }
-
+    #questions,#marks,#total{
+        width:max-content; 
+    }
     #questions:after {
         content: "NUMBER OF QUESTIONS";
         font-size: 0.8rem;
@@ -80,14 +83,15 @@
     }
 
     #marks-section {
-        margin-top: 30px;
-        margin-bottom: 30px;
+        display:flex; 
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
         width: 100%;
     }
 
     #time-section {
         width: 100%;
-        margin-top: 30px;
         font-size: 1.2rem;
     }
 
@@ -109,18 +113,20 @@
 
     #attempt-btn {
         display: block;
-        width: 100%;
+        width: 40%;
+        color:white;
+        background: #0d6efd;
         text-align: center;
         text-decoration: none;
         padding: 10px;
         border-radius: 10px;
-        margin-left: 20px;
-        margin-right: 20px;
-        font-size: 1.5rem;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 1.3rem;
     }
 
 
-    #start-time:after {
+    #start-time:before {
         content: "FROM";
         font-size: 0.7rem;
         font-weight: bold;
@@ -130,9 +136,10 @@
         padding-left: 10px;
         padding-right: 10px;
         border-radius: 20px;
+        margin-bottom: 2px;
     }
 
-    #end-time:after {
+    #end-time:before{
         content: "TO";
         font-size: 0.7rem;
         font-weight: bold;
@@ -241,7 +248,7 @@ const myChart = new Chart(ctx, {
 
     <br><br><br><br><br><br>
 
-    <a href="{% url 'answer-form' question.id %}"><button id="attempt-btn" class = "btn btn-primary">Attempt</button></a>
+    <a id="attempt-btn" class="btn btn-primary" href="{% url 'environment-check' question.id %}">Attempt</a>
     <br><br><br><br><br><br>
     {% endif %}
 

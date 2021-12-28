@@ -90,3 +90,4 @@ def password_reset_request(request):
 
 def verify_email(request):
     return render(request,'users/verify_email.html')
+

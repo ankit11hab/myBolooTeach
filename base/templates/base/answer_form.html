@@ -1,7 +1,13 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-
+{% include 'base/navbar.html' %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script>
+    let myName = "{{ profile.school }}"+"-"+"{{ profile.first_name }}"+"-"+"{{ profile.last_name }}";
+    console.log(myName)
+</script>
+<link rel="stylesheet" href="..\static\calculator.css">
 <style>
     ul {
         list-style: none;
@@ -21,26 +27,123 @@
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }
+    .row{
+        display:flex;
+        justify-content: center;
+        align-items: center; 
+        flex-wrap: wrap;
+        height:max-content;
+    }
 </style>
 
 <div class="container" style = "margin-bottom: 30px;margin-top: 30px;">
-    <div id = "first_part" style = "text-align: center; margin-top: 80px;">
-        <img src = "../media/images/wishes.svg" width = "300px">
-        <div style = "margin-top: 30px;font-size: 20px;">Hi there, I know you will do great. <br>A small tip: Please don't try to close the fullscreen. Else your answer will get submitted automatically!<br><br>Wish you all the best!</div><br>
-        <button class = "btn btn-primary" onclick="clicked()">Start test</button>
+    
+    <div style="display: flex; flex-direction: row;">
+        <div style = "border:1px solid rgb(206, 206, 206); padding: 10px; width: 170px; border-radius: 10px;text-align: center;transform:translate(-10px,0); margin-bottom: 5px; margin-right: 0px;">
+            <b><img src = "../media/images/alarm-clock.png" width = "26px" style = "transform: translate(0,-2px);"><span id='Timer' style='color: rgb(98, 54, 139);font-size: 18px;margin-left: 13px;'>00 : 00 : 00</span></b>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="padding:0px; margin-bottom: 5px;">
+            <img src="https://img.icons8.com/color/50/000000/calculator--v1.png"/>
+        </button>
     </div>
-    <div id = "display_question" style = "display: none;">
-    <div style = "border:1px solid rgb(206, 206, 206); padding: 10px; width: 170px; border-radius: 10px;text-align: center;transform:translate(-10px,0); margin-bottom: 5px;">
-        <b><img src = "../media/images/alarm-clock.png" width = "26px" style = "transform: translate(0,-2px);"><span id='Timer' style='color: rgb(98, 54, 139);font-size: 18px;margin-left: 13px;'>00 : 00 : 00</span></b>
-    </div>
+
+        <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="display:flex;justify-content: center;align-items: center;">
+        <div class="modal-content">
+            <table>
+                <tr>
+                    <td id="sciout">
+                        <div><div id="sciOutPut">0</div></div>
+                        <div style="padding-top:3px;width:100%">
+                            <div>
+                                <span onclick="r('sin')" class="scifunc">sin</span>
+                                <span onclick="r('cos')" class="scifunc">cos</span>
+                                <span onclick="r('tan')" class="scifunc">tan</span>
+                                <span class="scird"><label for="scirdsettingd">
+                                    <input id="scirdsettingd" type="radio" name="scirdsetting" value="deg" onClick="degreeRadians='degree';" checked>Deg</label>
+                                    <label for="scirdsettingr"><input id="scirdsettingr" type="radio" name="scirdsetting" value="rad" onClick="degreeRadians='radians';">Rad</label>
+                                </span>
+                            </div>
+                            <div>
+                                <span onclick="r('asin')" class="scifunc">sin<sup>-1</sup></span>
+                                <span onclick="r('acos')" class="scifunc">cos<sup>-1</sup></span>
+                                <span onclick="r('atan')" class="scifunc">tan<sup>-1</sup></span>
+                                <span onclick="r('pi')" class="scifunc">&#960;</span><span onclick="r('e')" class="scifunc">e</span>
+                            </div>
+                            <div>
+                                <span onclick="r('pow')" class="scifunc">x<sup>y</sup></span>
+                                <span onclick="r('x3')" class="scifunc">x<sup>3</sup></span>
+                                <span onclick="r('x2')" class="scifunc">x<sup>2</sup></span>
+                                <span onclick="r('ex')" class="scifunc">e<sup>x</sup></span>
+                                <span onclick="r('10x')" class="scifunc">10<sup>x</sup></span>
+                            </div>
+                            <div>
+                                <span onclick="r('apow')" class="scifunc"><sup>y</sup>&#8730;x</span>
+                                <span onclick="r('3x')" class="scifunc"><sup>3</sup>&#8730;x</span>
+                                <span onclick="r('sqrt')" class="scifunc">&#8730;x</span>
+                                <span onclick="r('ln')" class="scifunc">ln</span>
+                                <span onclick="r('log')" class="scifunc">log</span>
+                            </div>
+                            <div>
+                                <span onclick="r('(')" class="scifunc">(</span>
+                                <span onclick="r(')')" class="scifunc">)</span>
+                                <span onclick="r('1/x')" class="scifunc">1/x</span>
+                                <span onclick="r('pc')" class="scifunc">%</span>
+                                <span onclick="r('n!')" class="scifunc">n!</span>
+                            </div>
+                        </div>
+                        <div style="padding-top:3px;">
+                            <div>
+                                <span onclick="r(7)" class="scinm">7</span>
+                                <span onclick="r(8)" class="scinm">8</span>
+                                <span onclick="r(9)" class="scinm">9</span>
+                                <span onclick="r('+')" class="sciop">+</span>
+                                <span onclick="r('MS')" class="sciop">MS</span>
+                            </div>
+                            <div>
+                                <span onclick="r(4)" class="scinm">4</span>
+                                <span onclick="r(5)" class="scinm">5</span>
+                                <span onclick="r(6)" class="scinm">6</span>
+                                <span onclick="r('-')" class="sciop">&ndash;</span>
+                                <span onclick="r('M+')" class="sciop">M+</span>
+                            </div>
+                            <div>
+                                <span onclick="r(1)" class="scinm">1</span>
+                                <span onclick="r(2)" class="scinm">2</span>
+                                <span onclick="r(3)" class="scinm">3</span>
+                                <span onclick="r('*')" class="sciop">&#215;</span>
+                                <span onclick="r('M-')" class="sciop">M-</span>
+                            </div>
+                            <div>
+                                <span onclick="r(0)" class="scinm">0</span>
+                                <span onclick="r('.')" class="scinm">.</span>
+                                <span onclick="r('EXP')" class="sciop">EXP</span>
+                                <span onclick="r('/')" class="sciop">&#247;</span>
+                                <span onclick="r('MR')" class="sciop">MR</span>
+                            </div>
+                            <div>
+                                <span onclick="r('+/-')" class="sciop">&#177;</span>
+                                <span onclick="r('RND')" class="sciop">RND</span>
+                                <span onclick="r('C')" class="scieq">C</span>
+                                <span onclick="r('=')" class="scieq">=</span>
+                                <span onclick="r('MC')" class="sciop">MC</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </div><br/>
     
     <div class="row">
-        <div class="col-8" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);box-shadow: 2px 1px #e0d0ff;border-radius: 10px;">
+        <div class="" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);box-shadow: 2px 1px #e0d0ff;border-radius: 10px;width:max-content;">
             <embed scrolling="no" frameborder="0"
-                src="../media/{{ question.paper_file }}#scrollbar=0&toolbar=0&navpanes=0&view=FitH" width="110%"
-                height="600px" style="transform: translate(-25px,-5px)"></embed>
+                src="../media/{{ question.paper_file }}#scrollbar=0&toolbar=0&navpanes=0&view=FitH" 
+                height="700px" style="object-position: center;"></embed>
         </div>
-        <div class="col-3 ans-div" style = "margin-left:30px;padding: 20px 20px 20px 20px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 608px;box-shadow: 2px 1px #e0d0ff;overflow:scroll">
+        <div class="ans-div" style = "padding: 20px 20px 20px 20px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 608px;box-shadow: 2px 1px #e0d0ff;overflow:scroll;width:400px">
             <div><h5>Mark your answers here<hr></h5></div>
             
             <form method="POST">
@@ -54,13 +157,21 @@
                 {% endfor %}
                 <button id = "SubmitButton" class = "btn btn-success" type="submit" style = "width:100%;margin-top: 5px;">Submit</button>
             </form>
+            <video width="95%" style="margin-top: 10px;" id="localVideo" autoplay playsinline muted>
+                Your browser does not support the video tag.
+                Open with a different browser.
+            </video>
         </div>
     </div>
     </div>
 
 </div>
-
+{% include 'base/footer.html' %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="..\static\student.js"></script>
 <script>
     document.onfullscreenchange = ()=>{
         if(document.fullscreen==false)
@@ -102,5 +213,27 @@
     }
 }, 1000);
 </script>
+<script>
+    connectSocket();
+</script>
+<script>
+    var constraints = { audio: true, video: true };
+
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(mediaStream) {
+        var video = document.querySelector('video');
+        video.srcObject = mediaStream;
+        video.onloadedmetadata = function(e) {
+            video.play();
+        };
+    })
+    .catch(function(err) { 
+        alert("Camera/Microphone not detected" + "\nYou will be redirected to dashboard");
+        console.log(err.name + ": " + err.message); 
+        location.replace("{% url 'home' %}")
+    }); 
+</script>
+<script src="..\static\calculator.js"></script>
+    
 
 {% endblock %}
