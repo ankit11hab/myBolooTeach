@@ -12,6 +12,27 @@
     border-radius: 50%;
     transform: translate(80px, -130px);
 }
+.col-md-1 .card1{
+    width: 240px; position: absolute;top: 40px;
+    height:max-content; 
+
+                right: 120px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;
+}
+.col-md-1 .card2{
+    width: 240px; position: absolute;top: 140px;
+    height:max-content; 
+                right: 50px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;
+}
+@media only screen and (max-width: 760px) {
+    .col-md-1 .card1{
+      top:50%; 
+      /* right:50px;  */
+    }
+    .col-md-1 .card2{
+        top:70%;
+      /* right:0;  */
+    }
+}
 </style>
 <div class="container">
 
@@ -27,16 +48,14 @@
               </div>
             </div>
             <div class="col-md-1">
-                <div class="card" style="width: 240px; position: absolute;top: 40px;
-                right: 120px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;">
+                <div class="card1" style="background-color:white;">
                     <div class="card-body" style = "padding:10px">
                       <span style = "font-size: 18px;font-weight: 500;">{{ profile.first_name }} {{ profile.last_name }}</span><br>
                       <span style = "font-size: 16px;">Class: {{ profile.classs }}</span><br>
                       <span style = "font-size: 16px;">School: {{ profile.school }}</span>
                     </div>
                   </div>
-                  <div class="card" style="width: 240px; position: absolute;top: 127px;
-                right: 50px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;">
+                  <div class="card2" style="background-color:white;">
                     <div class="card-body" style = "padding:10px">
                       <span style = "font-size: 18px;font-weight: 500;">Overview</span><br>
                       <span style = "font-size: 16px;">Total submissions: {{ count1 }}</span><br>
