@@ -14,7 +14,7 @@
         text-decoration: none;
         font-family: Montserrat;
         color: white;
-        background-color: rgb(84, 33, 151);
+        background-color: rgb(127, 55, 221);
         padding: 10px;
         border-radius: 10px;
         margin-left: 20px;
@@ -34,27 +34,27 @@
 <div class="container h-100" style="min-width: 100%;">
     <div class="row">
         <div class="col-12" style="margin-top:25px; margin-bottom: 25px;">
-            <h1 class="text-center h1"><b>ENVIRONMENT CHECK</b></h1>
+            <h4 class="text-center h1"><b>Environment Check</b></h4>
         </div>
     </div>
     <div class="row mt-2" style='margin-right: 20px;'>
         <div class="col-lg-4 col-12 d-flex flex-column justify-content-center align-items-center">
             <div class="card bg-dark" id="cameraStreamCard">
                 <video id="video" autoplay style="display: none"></video>
-                <canvas id="canvas" style="margin-left: 4px;" width="360px" height="240px"></canvas>
+                <canvas id="canvas" style="margin-left: 4px;" width="350px" height="240px"></canvas>
             </div>
 
         </div>
         <div class="col-lg-8 col-12 justify-content-center px-1 px-md-3 my-3 mt-lg-0" id="statusDiv">
             <div class="card w-100">
-                <div class="card-header ct-card-header py-1 px-2" style='background-color: black;'>
+                <div class="card-header ct-card-header py-1 px-2" style='background-color: #F8F8F8;'>
                     <div class="m-0 p-0">
-                        <div style="padding-left: 10px; color: white;">
-                            <h3><b>{{ profile.first_name }} {{ profile.last_name }}</b></h3>
+                        <div>
+                            <span style="color:rgb(83, 83, 83);font-weight: 500;">{{ profile.first_name }} {{ profile.last_name }}</span>
                         </div>
                     </div>
                 </div>
-                <ul class="list-group list-group-flush ">
+                <ul class="list-group list-group-flush " style="font-size: 16px;">
                     <li class="list-group-item p-2">
                         <div class="row">
                             <div class="col-4 =">
@@ -66,7 +66,7 @@
                     <li class="list-group-item p-2">
                         <div class="row">
                             <div class="col-4 text-nowrap">
-                                BROWSER
+                                Browser
                             </div>
                             <div class="col-8" id="browserCheckStatus"><span>Checking.....</span></div>
                         </div>
@@ -85,7 +85,7 @@
                     <li class="list-group-item p-2">
                         <div class="row">
                             <div class="col-4 text-nowrap">
-                                WEBCAM
+                                Webcam
                             </div>
                             <div class="col-8"><span id="webcamCheckStatus">Loading.....</span></div>
                         </div>
@@ -93,7 +93,7 @@
                     <li class="list-group-item p-2">
                         <div class="row">
                             <div class="col-4 text-nowrap">
-                                MICROPHONE
+                                Microphone
                             </div>
                             <div class="col-8"><span>Please say some words.........</span>
                                 <span id="microphoneCheckStatus"><b style='color:rgb(226, 183, 102);'>Waiting</b></span>
@@ -112,14 +112,14 @@
                     </li>
                 </ul>
             </div>
-            <b style="color: red;">Tip : Wait for a few seconds for camera to start</b>
+            <span style="color: red;">Tip : Wait for a few seconds for camera to start</span>
         </div>
     </div>
 </div>
 <button id="attempt-btn" onclick='StartTest()'><b>Start Test</b></button>
 
 <div>
-    <b id="message" style="color: red; margin: auto; margin-top: 5px;"></b>
+    <span id="message" style="color: red; margin: auto; margin-top: 5px;"></span>
 </div>
 
 <script src="..\static\envcheck.js"></script>
@@ -183,9 +183,9 @@ function StartTest(){
       const prediction = await model.estimateFaces(video, false);
 
       if(prediction.length == 0){
-        document.getElementById('FaceDetectStatus').innerHTML = '<b style="color:red">Face Not Visible</b>'
+        document.getElementById('FaceDetectStatus').innerHTML = '<span style="color:red">Face Not Visible</span>'
       }else{
-        document.getElementById('FaceDetectStatus').innerHTML = '<b style="color:green">OK</b>'
+        document.getElementById('FaceDetectStatus').innerHTML = '<span style="color:green">OK</span>'
       }
 
       // draw the video first

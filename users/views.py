@@ -38,7 +38,7 @@ def register(request):
 
 def send_verification_mail(email,token):
     subject = "Verify your account"
-    message = f'Click on this link to verify your account: http://127.0.0.1:8000/verify/{token}'
+    message = f'Click on this link to verify your account: http://myboloo.com/verify/{token}'
     email_from = settings.EMAIL_HOST_USER
     email_to = [email]
     send_mail(subject, message, email_from, email_to, fail_silently=False)
