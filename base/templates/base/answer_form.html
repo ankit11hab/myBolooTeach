@@ -34,6 +34,14 @@
         flex-wrap: wrap;
         height:max-content;
     }
+    .quespaper{
+width:60%;
+    }
+    @media only screen and (max-width: 760px) {
+ .quespaper{
+width:100%;
+ }
+}
 </style>
 
 <div class="container" style = "margin-bottom: 30px;margin-top: 30px;">
@@ -138,10 +146,10 @@
     </div><br/>
     
     <div class="row">
-        <div class="" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);box-shadow: 2px 1px #e0d0ff;border-radius: 10px;width:max-content;">
+        <div class="quespaper" style="overflow-x: hidden;border:1px solid rgb(218, 218, 218);box-shadow: 2px 1px #e0d0ff;border-radius: 10px;">
             <embed scrolling="no" frameborder="0"
                 src="../media/{{ question.paper_file }}#scrollbar=0&toolbar=0&navpanes=0&view=FitH" 
-                height="700px" style="object-position: center;"></embed>
+                height="700px" width="100%" style="object-position: center;"></embed>
         </div>
         <div class="ans-div" style = "padding: 20px 20px 20px 20px;border:1px solid rgb(218, 218, 218);border-radius: 10px; height: 608px;box-shadow: 2px 1px #e0d0ff;overflow:scroll;width:400px">
             <div><h5>Mark your answers here<hr></h5></div>
