@@ -16,11 +16,12 @@
 <div class="container">
 
     <div style=" margin-top:40px">
-        <div class="card mb-3 w-100">
+        <div class="card mb-3 w-100" style="background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);">
           <div class="row g-0">
             <div class="col-md-6">
               <div class="card-body" style="margin-left: 40px;"><br>
-                <h3 class="card-title">A clear overview of your<br>performance</h3><br>
+                <h3 class="card-title" style="color: white;">A clear overview of your<br>performance</h3><br>
                 <p class="card-text" style="font-size: 18px;color:gray">Get insights and stay engaged with
                   your<br>studies.</p><br> <a href="#pending" class="btn btn-primary"
                   style="letter-spacing: 1px;border-radius: 20px;background-color: white;color:#0d6efd"><b>VIEW QUESTIONS</b></a>
@@ -28,7 +29,7 @@
             </div>
             <div class="col-md-1">
                 <div class="card" style="width: 240px; position: absolute;top: 40px;
-                right: 120px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;">
+                right: 120px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000; background-color:#14a7c7">
                     <div class="card-body" style = "padding:10px">
                       <span style = "font-size: 18px;font-weight: 500;">{{ profile.first_name }} {{ profile.last_name }}</span><br>
                       <span style = "font-size: 16px;">Class: {{ profile.classs }}</span><br>
@@ -36,7 +37,7 @@
                     </div>
                   </div>
                   <div class="card" style="width: 240px; position: absolute;top: 127px;
-                right: 50px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;">
+                right: 50px;z-index: 1000;border-radius: 10px;box-shadow: 0px 2px 2px #000000;background-color:#69b9ca">
                     <div class="card-body" style = "padding:10px">
                       <span style = "font-size: 18px;font-weight: 500;">Overview</span><br>
                       <span style = "font-size: 16px;">Total submissions: {{ count1 }}</span><br>
