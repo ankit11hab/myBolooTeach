@@ -63,7 +63,9 @@
         font-size: 1em;
         /* border-radius: 5px 0 0 5px; */
         margin: 0;
-        padding: 5px;
+        padding: 7px;
+        height:100%;
+        
     }
 
     .btn {
@@ -147,6 +149,29 @@
         }
 
     }
+
+    @media screen and (max-width:474px){
+        .input-field{
+            width:60%; 
+           align-items: center;
+           margin:0 auto;
+           /* overflow: hidden; */
+            /* color:red;  */
+        }
+        .input-field .label{
+            margin-right: 110%;
+            font-weight: 500;
+            text-align: left;
+           
+        }
+        .input-username-password{
+            width:70vw;
+        }
+       
+        .container-child-right{
+            padding:auto;
+        }
+    }
 </style>
 
 <div class="container">
@@ -169,19 +194,19 @@
             <span id="heading" style="font-weight: bold;">Login to Dashboard</span>
             <form method="POST" action="">
                 {% csrf_token %}
-                <div class="mb-3 input-field" style="margin-top: 30px;">
+                <div class="mb-3 input-field" style="margin-top: 30px;flex-wrap:wrap;">
                     <div class="label">
-                        <div>Username</div>
+                        Username
                     </div>
                     <div>{{ form.username|add_class:'input-username-password' }}</div>
                 </div>
-                <div class="mb-3 input-field" style="margin-top: 30px;">
+                <div class="mb-3 input-field" style="margin-top: 30px;flex-wrap:wrap;">
                     <div class="label">
-                        <div>Password</div>
+                        Password
                     </div>
                     <div> {{ form.password|add_class:'input-username-password' }}</div>
                 </div>
-                <div class="input-field">
+                <div class="input-field" style="flex-wrap: wrap;">
                     <div><button class="btn btn-primary" type="submit">Login</button></div>
                     <div class="forgot-pass" style="font-weight: 500;color:rgb(95, 95, 202);">
                         <a href="{% url 'password_reset'%}" style="text-decoration: none;color:rgb(95, 95, 202)">Forgot

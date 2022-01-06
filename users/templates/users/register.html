@@ -144,6 +144,29 @@
             transform: none;
         }
     }
+
+    @media screen and (max-width:474px){
+        .input-field{
+            width:80%; 
+           align-items: center;
+           margin:0 auto;
+           /* overflow: hidden; */
+            /* color:red;  */
+        }
+        .input-field .label{
+            margin-right: 70%;
+            font-weight: 500;
+            text-align: left;
+           
+        }
+        .input-username-password{
+            width:55vw;
+        }
+       
+        .container-child-right{
+            padding:auto;
+        }
+    }
 </style>
 <body>
     
@@ -168,27 +191,27 @@
             <span id="heading">Sign Up to Dashboard</span>
             <form method="POST">
                 {% csrf_token %}
-                <div class="mb-3 input-field" style="margin-top: 30px;">
+                <div class="mb-3 input-field" style="margin-top: 30px;flex-wrap: wrap;">
                     <div class="label">
-                        <div >Username</div>
+                        Username
                     </div>
                     <div>{{ form.username|add_class:'input-username-password' }}</div>
                     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
-                <div class="mb-3 input-field" style="margin-top: 30px; ">
+                <div class="mb-3 input-field" style="margin-top: 30px;flex-wrap: wrap; ">
                     <div class="label">
-                        <div>Email</div>
+                        Email
                     </div>
                     <div>{{ form.email|add_class:'input-username-password' }}</div>
                     <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
-                <div class="mb-3 input-field" style="margin-top: 30px; ">
+                <div class="mb-3 input-field" style="margin-top: 30px;flex-wrap: wrap; ">
                     <div class="label">
                         <div>Password</div>
                     </div>
                     {{ form.password1|add_class:'input-username-password' }}
                 </div>
-                <div class="mb-3 input-field" style="margin-top: 30px; ">
+                <div class="mb-3 input-field" style="margin-top: 30px;flex-wrap: wrap; ">
                     <div class="label">
                         <div >Confirm Password</div>
                     </div>
